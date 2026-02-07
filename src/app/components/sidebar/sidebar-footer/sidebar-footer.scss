@@ -1,0 +1,46 @@
+:host {
+  margin-top: auto;
+}
+
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rs-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+
+  display: grid;
+  place-items: center;
+
+  background: #d7f1ff;
+  color: #0b0f12;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.rs-badge__text {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.footer-text {
+  display: flex;
+  align-items: baseline;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.footer-text__main {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.footer-text__accent {
+  color: rgba(255, 255, 255, 0.75);
+}
