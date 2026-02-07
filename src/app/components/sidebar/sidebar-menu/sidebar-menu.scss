@@ -1,0 +1,25 @@
+.sidebar-menu {
+  padding-top: 8px;
+
+  button[mat-list-item] {
+    width: calc(100% - 16px);
+    margin: 4px 8px;
+    border-radius: 10px;
+    text-align: left;
+    border: none;
+    outline: none;
+  }
+
+  button.active {
+    background-color: rgba(0, 170, 255, 0.15);
+  }
+
+  mat-icon {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  span {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+  }
+}

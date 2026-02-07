@@ -1,3 +1,7 @@
+:host {
+  margin-top: auto;
+}
+
 .sidebar-footer {
   display: flex;
   align-items: center;
@@ -5,8 +9,6 @@
 
   padding: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-  margin-top: auto;
 }
 
 .rs-badge {
