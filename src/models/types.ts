@@ -9,10 +9,10 @@ export interface DashboardData {
 export interface Tab {
   id: TabId | string;
   title: string;
-  cards: Card[];
+  cards: CardModel[];
 }
 
-export interface Card {
+export interface CardModel {
   id: string;
   title: string;
   layout: CardLayout;
