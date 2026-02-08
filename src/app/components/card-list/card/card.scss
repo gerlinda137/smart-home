@@ -1,0 +1,32 @@
+.card {
+  display: flex;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.card__title {
+  margin-bottom: 1em;
+}
+
+.card__items {
+  display: flex;
+  gap: 2em;
+}
+
+.card__horizontal {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+}
+
+.card__vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card__single-device {
+  display: block;
+}
