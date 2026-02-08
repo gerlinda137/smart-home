@@ -1,3 +1,3 @@
 <h3 class="sensor__title">{{ sensor.label}}</h3>
 <mat-icon class="sensor__icon">{{ sensor.icon }}</mat-icon>
-<span class="sensor__value">{{ sensor.value.amount }} {{ sensor.value.unit }}</span>
+<span class="sensor__value">{{ sensor.value | sensor }}</span>
