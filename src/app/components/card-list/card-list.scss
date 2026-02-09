@@ -1,6 +1,24 @@
 .card-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
   padding-top: 2em;
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
+
+  grid-auto-flow: row dense;
+}
+
+.card__horizontal {
+  grid-column: span 2;
+}
+
+.card__vertical {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.card__single-device {
+  grid-column: span 1;
+  grid-row: span 1;
 }

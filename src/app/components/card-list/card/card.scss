@@ -18,7 +18,6 @@
 .card__horizontal {
   display: flex;
   gap: 2em;
-  align-items: center;
 }
 
 .card__vertical {
@@ -29,4 +28,8 @@
 
 .card__single-device {
   display: block;
+}
+
+.card__vertical .card__items {
+  flex-direction: column;
 }
