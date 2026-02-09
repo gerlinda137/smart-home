@@ -1,15 +1,16 @@
-<mat-card class="card">
+<mat-card class="card" [ngClass]="layoutClass">
   <mat-card-title class="card__title">{{ card.title }}</mat-card-title>
 
-  <div class="card__items" [class]="layoutClass">
+  <div class="card__items">
     @for (item of card.items; track item.label) {
     @switch (item.type) {
     @case ('sensor') {
     <app-sensor [sensor]="item"></app-sensor>
     }
-    @default {
-    <p>Unknown item type: {{ item.type }}</p>
+    @case ('device') {
+    <app-device class="device" [device]="item"></app-device>
     }
+
     }
     }
   </div>

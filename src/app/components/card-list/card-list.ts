@@ -12,4 +12,17 @@ import { DASHBOARD_MOCK } from '../../../mock-data/dashboard.mock';
 export class CardList {
   protected readonly cards: CardModel[] =
     DASHBOARD_MOCK.tabs.find((tab) => tab.id === 'overview')?.cards ?? [];
+
+  layoutClass(card: CardModel): string {
+    switch (card.layout) {
+      case 'horizontalLayout':
+        return 'card__horizontal';
+      case 'verticalLayout':
+        return 'card__vertical';
+      case 'singleDevice':
+        return 'card__single-device';
+      default:
+        return '';
+    }
+  }
 }
