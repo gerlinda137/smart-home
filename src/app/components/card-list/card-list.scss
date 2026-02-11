@@ -5,8 +5,9 @@
   width: 100%;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-auto-rows: auto;
-
+  box-sizing: border-box;
   grid-auto-flow: row dense;
+  padding: 1em;
 }
 
 .card__horizontal {
@@ -21,4 +22,11 @@
 .card__single-device {
   grid-column: span 1;
   grid-row: span 1;
+}
+
+@media (max-width: 1200px) {
+  .card-list {
+    display: flex;
+    flex-direction: column;
+  }
 }
