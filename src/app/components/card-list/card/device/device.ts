@@ -1,4 +1,12 @@
-import { Component, effect, Input, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DeviceItem } from '../../../../../models/types';
@@ -10,19 +18,20 @@ import { DeviceItem } from '../../../../../models/types';
   templateUrl: './device.html',
   styleUrl: './device.scss',
 })
-export class Device {
+export class Device implements OnChanges {
   @Input({ required: true }) device!: DeviceItem;
   toggleState = signal(false);
 
-  constructor() {
-    effect(() => {
-      if (this.device) {
-        this.toggleState.set(this.device.state);
-      }
-    });
+  @Output() stateChange = new EventEmitter<boolean>();
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['device'] && this.device) {
+      this.toggleState.set(this.device.state);
+    }
   }
 
   onToggle(checked: boolean) {
     this.toggleState.set(checked);
+    this.stateChange.emit(checked);
   }
 }
