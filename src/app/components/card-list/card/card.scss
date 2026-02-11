@@ -6,8 +6,16 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
 .card__title {
-  margin-bottom: 1em;
+  margin: 0;
 }
 
 .card__items {

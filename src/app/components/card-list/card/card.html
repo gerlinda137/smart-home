@@ -1,5 +1,12 @@
 <mat-card class="card" [appActiveCard]="isActive" [ngClass]="layoutClass">
-  <mat-card-title class="card__title">{{ card.title }}</mat-card-title>
+  <div class="card__header">
+    <mat-card-title class="card__title">{{ card.title }}</mat-card-title>
+    @if (showGroupToggle()) {
+    <mat-slide-toggle [checked]="groupChecked()" (change)="onGroupToggle($event)">
+    </mat-slide-toggle>
+    }
+  </div>
+
 
   <div class="card__items">
     @for (item of card.items; track item.label) {
