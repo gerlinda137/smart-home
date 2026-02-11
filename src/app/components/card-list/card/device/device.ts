@@ -20,11 +20,23 @@ import { DeviceItem } from '../../../../../models/types';
 })
 export class Device implements OnChanges {
   @Input({ required: true }) device!: DeviceItem;
+
+  @Input() checked?: boolean;
+
   toggleState = signal(false);
 
   @Output() stateChange = new EventEmitter<boolean>();
 
+  onDeviceStateChange(item: DeviceItem, newState: boolean) {
+    item.state = newState;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['checked']) {
+      this.toggleState.set(!!this.checked);
+      return;
+    }
+
     if (changes['device'] && this.device) {
       this.toggleState.set(this.device.state);
     }
