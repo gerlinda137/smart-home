@@ -8,7 +8,7 @@
     <app-sensor [sensor]="item"></app-sensor>
     }
     @case ('device') {
-    <app-device class="device" [device]="item"></app-device>
+    <app-device class="device" [device]="item" (stateChange)="onDeviceStateChange(item, $event)"></app-device>
     }
 
     }
