@@ -3,7 +3,6 @@
     <mat-card-title class="card__title">{{ card.title }}</mat-card-title>
     @if (showGroupToggle()) {
     <mat-slide-toggle [checked]="groupChecked()" (change)="onGroupToggle($event)">
-      All devices
     </mat-slide-toggle>
     }
   </div>
