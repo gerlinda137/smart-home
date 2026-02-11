@@ -33,3 +33,8 @@
 .card__vertical .card__items {
   flex-direction: column;
 }
+
+.card--active {
+  outline: 2px solid var(--mat-sys-secondary);
+  box-shadow: 0 0 0 2px var(--mat-sys-secondary);
+}

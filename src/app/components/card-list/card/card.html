@@ -1,4 +1,4 @@
-<mat-card class="card" [ngClass]="layoutClass">
+<mat-card class="card" [appActiveCard]="isActive" [ngClass]="layoutClass">
   <mat-card-title class="card__title">{{ card.title }}</mat-card-title>
 
   <div class="card__items">
