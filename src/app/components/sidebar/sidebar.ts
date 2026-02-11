@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { SidebarHeader } from './sidebar-header/sidebar-header';
 import { SidebarFooter } from './sidebar-footer/sidebar-footer';
 import { SidebarMenu } from './sidebar-menu/sidebar-menu';
@@ -10,4 +10,10 @@ import { SidebarMenu } from './sidebar-menu/sidebar-menu';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
-export class Sidebar {}
+export class Sidebar {
+  @Output() toggleSideNav = new EventEmitter<void>();
+
+  onToggleSideNav() {
+    this.toggleSideNav.emit();
+  }
+}

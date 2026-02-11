@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -8,4 +8,10 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './sidebar-header.html',
   styleUrl: './sidebar-header.scss',
 })
-export class SidebarHeader {}
+export class SidebarHeader {
+  @Output() toggleSideNav = new EventEmitter<void>();
+
+  onToggleSideNavClick() {
+    this.toggleSideNav.emit();
+  }
+}
