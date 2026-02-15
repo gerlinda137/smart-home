@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable } from 'rxjs';
 
-interface LoginCreds {
+export interface LoginCreds {
   userName: string;
   password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   token: string;
 }
 
-interface UserProfile {
+export interface UserProfile {
   fullName: string;
   initials: string;
 }
@@ -22,11 +22,25 @@ interface UserProfile {
 export class LoginApiService {
   private http = inject(HttpClient);
 
-  public login(loginCreds: LoginCreds): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/api/user/login', loginCreds);
+  login(loginCreds: LoginCreds): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('/api/user/login', loginCreds).pipe(
+      catchError((error) => {
+        if (error.status === 401) {
+          throw new Error(error.message);
+        }
+        throw error;
+      }),
+    );
   }
 
-  public getProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>('api/user/profile');
+  getProfile(): Observable<UserProfile> {
+    return this.http.get<UserProfile>('/api/user/profile').pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          throw new Error(error.message);
+        }
+        throw error;
+      }),
+    );
   }
 }
