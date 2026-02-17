@@ -1,0 +1,35 @@
+.layout {
+  height: 100vh;
+  width: 100%;
+}
+
+.sidenav {
+  width: 280px;
+}
+
+.content {
+  height: 100%;
+}
+
+.topbar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.icon-btn {
+  display: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
