@@ -58,7 +58,6 @@ export class LoginForm implements OnInit {
       .login(creds)
       .pipe(
         finalize(() => {
-          console.log('finalize called');
           this.isLoading = false;
           this.cdr.markForCheck();
         }),
