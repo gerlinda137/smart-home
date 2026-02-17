@@ -4,7 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { LoginApiService } from '../../../services/login-api-service/login-api-service';
+import { UserApiService } from '../../../services/user-api-service/user-api-service';
 import { finalize } from 'rxjs';
 import { TokenStorageService } from '../../../services/token-storage/token-storage';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
 export class LoginForm implements OnInit {
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
-  loginApiService = inject(LoginApiService);
+  loginApiService = inject(UserApiService);
   tokenStorage = inject(TokenStorageService);
   router = inject(Router);
   errorMessage: string | null = null;
