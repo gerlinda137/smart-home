@@ -10,6 +10,6 @@ export const routes: Routes = [
     component: DashboardPage,
   },
   { path: 'login', component: LoginPage },
-  { path: '**', component: NotFoundPage },
   { path: 'dashboard/:dashboardId/:tabId', component: DashboardPage, canActivate: [authGuard] },
+  { path: '**', component: NotFoundPage },
 ];

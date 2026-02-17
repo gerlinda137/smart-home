@@ -1,8 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CardList } from '../card-list/card-list';
-import { TabId } from '../../../models/types';
-import { DASHBOARD_MOCK } from '../../../mock-data/dashboard.mock';
+import { DashboardData, Tab } from '../../../models/types';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,17 +10,16 @@ import { DASHBOARD_MOCK } from '../../../mock-data/dashboard.mock';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  activeTabId = signal<TabId>('overview');
+  @Input() dashboard!: DashboardData;
+  @Input() currentTab!: Tab;
 
-  cards = computed(() => {
-    const tabId = this.activeTabId();
-    const tab = DASHBOARD_MOCK.tabs.find((t) => t.id === tabId);
-    return tab?.cards ?? [];
-  });
+  @Output() tabSelected = new EventEmitter<string>();
 
-  onTabChange(index: number) {
-    const tabId: TabId = index === 0 ? 'overview' : 'lights';
+  getCurrentTabIndex(): number {
+    return this.dashboard.tabs.findIndex((t) => t.id === this.currentTab.id);
+  }
 
-    this.activeTabId.set(tabId);
+  onTabChange(index: number): void {
+    this.tabSelected.emit(this.dashboard.tabs[index].id);
   }
 }

@@ -4,15 +4,28 @@
     <app-sidebar class="sidebar" (toggleSideNav)="toggleSideNav()"></app-sidebar>
   </mat-sidenav>
 
-  <mat-sidenav-content class=" content">
+  <mat-sidenav-content class="content">
     <header class="topbar">
       <button class="icon-btn" type="button" (click)="toggleSideNav()" aria-label="Open menu">
         <mat-icon>menu</mat-icon>
       </button>
-
       <span class="title">Smart Home UI</span>
     </header>
 
-    <app-dashboard></app-dashboard>
+    @if (isLoading) {
+    <div class="loading-state">
+      <p>Loading dashboard...</p>
+    </div>
+    }
+
+    @if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+    </div>
+    }
+
+    @if (!isLoading && !error && dashboard && currentTab) {
+    <app-dashboard [dashboard]="dashboard" [currentTab]="currentTab" (tabSelected)="selectTab($event)"></app-dashboard>
+    }
   </mat-sidenav-content>
 </mat-sidenav-container>

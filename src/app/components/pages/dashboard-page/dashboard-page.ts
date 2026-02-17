@@ -1,5 +1,12 @@
-// dashboard-page.ts
-import { Component, computed, signal, ViewChild, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  computed,
+  signal,
+  ViewChild,
+  OnInit,
+  inject,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,6 +28,7 @@ export class DashboardPage implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private dashboardService = inject(DashboardService);
+  private cdr = inject(ChangeDetectorRef);
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
 
@@ -53,6 +61,7 @@ export class DashboardPage implements OnInit {
     this.route.paramMap
       .pipe(
         switchMap((params) => {
+          console.log('Route params:', params);
           const dashboardId = params.get('dashboardId');
           const tabId = params.get('tabId');
 
@@ -65,6 +74,7 @@ export class DashboardPage implements OnInit {
 
           return this.dashboardService.getDashboardById(dashboardId).pipe(
             switchMap((dashboard) => {
+              console.log('Dashboard loaded:', dashboard);
               this.dashboard = dashboard;
 
               const tab = dashboard.tabs.find((t) => t.id === tabId);
@@ -78,6 +88,7 @@ export class DashboardPage implements OnInit {
               }
 
               this.currentTab = tab;
+              console.log('Current tab:', tab);
               return of(dashboard);
             }),
           );
@@ -85,7 +96,9 @@ export class DashboardPage implements OnInit {
       )
       .subscribe({
         next: () => {
+          console.log('Subscribe next called');
           this.isLoading = false;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error loading dashboard:', err);
@@ -98,6 +111,7 @@ export class DashboardPage implements OnInit {
   private redirectToFirstDashboard() {
     return this.dashboardService.getDashboards().pipe(
       switchMap((dashboards) => {
+        console.log('All dashboards:', dashboards);
         if (!dashboards.length) {
           this.error =
             'You don’t have any dashboards yet. They’ll appear here as soon as you create them';
@@ -105,11 +119,12 @@ export class DashboardPage implements OnInit {
         }
 
         const firstDashboard = dashboards[0];
+        console.log('First dashboard ID:', firstDashboard.id);
 
         return this.dashboardService.getDashboardById(firstDashboard.id).pipe(
           switchMap((detail) => {
             const firstTab = detail.tabs[0];
-
+            console.log('First tab ID:', firstTab.id);
             this.router.navigate(['/dashboard', firstDashboard.id, firstTab.id], {
               replaceUrl: true,
             });
