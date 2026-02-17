@@ -4,7 +4,12 @@
   </div>
 
   <div class="footer-text">
+    @if (userProfile$ | async; as user) {
+    <span class="footer-text__main">{{ user.fullName }}</span>
+    <span class="footer-text__accent">{{ user.initials }}</span>
+    } @else {
     <span class="footer-text__main">RSSchool.</span>
-    <span class="footer-text__accent"> Angular</span>
+    <span class="footer-text__accent">Angular</span>
+    }
   </div>
 </footer>

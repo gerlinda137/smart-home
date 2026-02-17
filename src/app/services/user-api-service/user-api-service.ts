@@ -19,7 +19,7 @@ export interface UserProfile {
 @Injectable({
   providedIn: 'root',
 })
-export class LoginApiService {
+export class UserApiService {
   private http = inject(HttpClient);
 
   login(loginCreds: LoginCreds): Observable<LoginResponse> {
@@ -31,7 +31,7 @@ export class LoginApiService {
   }
 
   getProfile(): Observable<UserProfile> {
-    return this.http.get<UserProfile>('/api/user/profile').pipe(
+    return this.http.get<UserProfile>('/user/profile').pipe(
       catchError((error: HttpErrorResponse) => {
         throw error;
       }),
