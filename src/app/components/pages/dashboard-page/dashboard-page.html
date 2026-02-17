@@ -1,0 +1,18 @@
+<mat-sidenav-container class="layout">
+  <mat-sidenav #sidenav [mode]="sidenavMode()" [opened]="sidenavOpened()" (backdropClick)="closeSidebar()"
+    class="sidenav">
+    <app-sidebar class="sidebar" (toggleSideNav)="toggleSideNav()"></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content class=" content">
+    <header class="topbar">
+      <button class="icon-btn" type="button" (click)="toggleSideNav()" aria-label="Open menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span class="title">Smart Home UI</span>
+    </header>
+
+    <app-dashboard></app-dashboard>
+  </mat-sidenav-content>
+</mat-sidenav-container>
