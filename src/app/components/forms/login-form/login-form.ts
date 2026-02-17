@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login-form.html',
   styleUrl: './login-form.scss',
 })
-export class LoginForm {
+export class LoginForm implements OnInit {
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
   loginApiService = inject(LoginApiService);
@@ -78,5 +78,11 @@ export class LoginForm {
           }
         },
       });
+  }
+
+  ngOnInit() {
+    this.loginForm.valueChanges.subscribe(() => {
+      this.errorMessage = null;
+    });
   }
 }
