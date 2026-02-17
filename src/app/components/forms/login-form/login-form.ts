@@ -72,7 +72,7 @@ export class LoginForm implements OnInit {
             this.errorMessage = 'Invalid login or password.';
             this.cdr.markForCheck();
           } else {
-            this.errorMessage = error;
+            this.errorMessage = error.message;
             this.cdr.markForCheck();
           }
         },
