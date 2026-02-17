@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { TokenStorageService } from '../services/token-storage/token-storage';
 import { inject } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenStorage = inject(TokenStorageService);
@@ -10,7 +11,7 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   if (!authReq.url.startsWith('http')) {
     authReq = authReq.clone({
-      url: `/api${req.url}`,
+      url: `${environment.apiUrl}${req.url}`,
     });
   }
 

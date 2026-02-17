@@ -23,11 +23,8 @@ export class LoginApiService {
   private http = inject(HttpClient);
 
   login(loginCreds: LoginCreds): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/api/user/login', loginCreds).pipe(
+    return this.http.post<LoginResponse>('/user/login', loginCreds).pipe(
       catchError((error) => {
-        if (error.status === 401) {
-          throw new Error(error.message);
-        }
         throw error;
       }),
     );
@@ -36,9 +33,6 @@ export class LoginApiService {
   getProfile(): Observable<UserProfile> {
     return this.http.get<UserProfile>('/api/user/profile').pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          throw new Error(error.message);
-        }
         throw error;
       }),
     );
