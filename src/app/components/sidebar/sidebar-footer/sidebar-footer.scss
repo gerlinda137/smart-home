@@ -7,7 +7,7 @@
   align-items: center;
   gap: 12px;
 
-  padding: 16px;
+  padding: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -32,9 +32,13 @@
 
 .footer-text {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   font-size: 14px;
   font-weight: 600;
+
+  button {
+    margin-left: 0.6em;
+  }
 }
 
 .footer-text__main {
