@@ -1,11 +1,35 @@
 <mat-nav-list class="sidebar-menu">
-  <button mat-list-item class="active" type="button">
-    <mat-icon matListItemIcon>dashboard</mat-icon>
-    <span matListItemTitle>Overview</span>
-  </button>
 
-  <button mat-list-item type="button">
-    <mat-icon matListItemIcon>info</mat-icon>
-    <span matListItemTitle>About</span>
-  </button>
+  @if (isLoading) {
+  <div class="loading-state">
+    <mat-spinner diameter="30"></mat-spinner>
+    <p>Loading...</p>
+  </div>
+  }
+
+  @if (error) {
+  <div class="error-state">
+    <p>{{ error }}</p>
+    <button (click)="loadDashboards()">Retry</button>
+  </div>
+  }
+
+  @if (!isLoading && !error && dashboards.length === 0) {
+  <div class="empty-state">
+    <p>You don't have any dashboards yet.</p>
+    <p>They'll appear here as soon as you create them.</p>
+  </div>
+  }
+
+  @if (!isLoading && !error && dashboards.length > 0) {
+  <div class="dashboard-list">
+    @for (dashboard of dashboards; track trackById($index, dashboard)) {
+    <button class="dashboard-item" (click)="selectDashboard(dashboard.id)"
+      [class.active]="dashboard.id === activeDashboardId" routerLinkActive="active">
+      <mat-icon>{{ dashboard.icon }}</mat-icon>
+      <span>{{ dashboard.title }}</span>
+    </button>
+    }
+  </div>
+  }
 </mat-nav-list>
