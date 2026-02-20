@@ -13,6 +13,7 @@ export class AuthStateService {
   userProfile$ = this.userSubject.asObservable();
 
   public setAuthenticated(isAuth: boolean): void {
+    console.log('setAuthenticated called:', isAuth);
     this.authSubject.next(isAuth);
   }
 

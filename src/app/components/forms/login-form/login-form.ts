@@ -9,6 +9,7 @@ import { finalize } from 'rxjs';
 import { TokenStorageService } from '../../../services/token-storage/token-storage';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthStateService } from '../../../services/auth-service/auth-state-service';
 
 @Component({
   selector: 'app-login-form',
@@ -29,6 +30,7 @@ export class LoginForm implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   loginApiService = inject(UserApiService);
   tokenStorage = inject(TokenStorageService);
+  private authState = inject(AuthStateService);
   router = inject(Router);
   errorMessage: string | null = null;
   isLoading = false;
@@ -65,6 +67,7 @@ export class LoginForm implements OnInit {
       .subscribe({
         next: (response) => {
           this.tokenStorage.saveToken(response.token);
+          this.authState.setAuthenticated(true);
           this.router.navigate(['']);
         },
         error: (error) => {
