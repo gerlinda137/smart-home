@@ -4,7 +4,6 @@ import { SidebarFooter } from './sidebar-footer/sidebar-footer';
 import { SidebarMenu } from './sidebar-menu/sidebar-menu';
 import { AuthStateService } from '../../services/auth-service/auth-state-service';
 import { AsyncPipe } from '@angular/common';
-
 @Component({
   selector: 'app-sidebar',
   standalone: true,
