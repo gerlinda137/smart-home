@@ -57,7 +57,7 @@ export class LoginForm implements OnInit {
     const creds = { userName: userName!, password: password! };
 
     this.loginApiService
-      .login(creds)å
+      .login(creds)
       .pipe(
         finalize(() => {
           this.isLoading = false;
