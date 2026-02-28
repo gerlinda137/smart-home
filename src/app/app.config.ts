@@ -5,7 +5,9 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
 import { authTokenInterceptor } from './interceptors/auth-token-interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -17,6 +19,12 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authTokenInterceptor, unauthHandleInterceptor])),
+    provideStore({}),
+    provideEffects([]),
+    provideStoreDevtools({
+      maxAge: 25,
+      logOnly: false,
+    }),
     provideAppInitializer(() => {
       const authInit = inject(AuthInitService);
       return authInit.initialize();
