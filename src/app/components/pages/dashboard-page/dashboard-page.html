@@ -12,20 +12,20 @@
       <span class="title">Smart Home UI</span>
     </header>
 
-    @if (isLoading) {
+    @if (isLoading$()) {
     <div class="loading-state">
       <p>Loading dashboard...</p>
     </div>
     }
 
-    @if (error) {
+    @if (error$()) {
     <div class="error-state">
-      <p>{{ error }}</p>
+      <p>{{ error$() }}</p>
     </div>
     }
 
-    @if (!isLoading && !error && dashboard && currentTab) {
-    <app-dashboard [dashboard]="dashboard" [currentTab]="currentTab" (tabSelected)="selectTab($event)"></app-dashboard>
+    @if (!isLoading$() && !error$() && dashboard$(); as dashboard ) {
+    <app-dashboard [dashboard]="dashboard" (tabSelected)="selectTab($event)"></app-dashboard>
     }
   </mat-sidenav-content>
 </mat-sidenav-container>

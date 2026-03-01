@@ -14,6 +14,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { unauthHandleInterceptor } from './interceptors/unauth-handle-interceptor';
 import { AuthInitService } from './services/auth-init-service/auth-init-service';
 import { dashboardReducer } from './store/dashboard/dashboard.reducer';
+import { DashboardEffects } from './store/dashboard/dashboard.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authTokenInterceptor, unauthHandleInterceptor])),
     provideStore({ dashboard: dashboardReducer }),
-    provideEffects([]),
+    provideEffects([DashboardEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: false,

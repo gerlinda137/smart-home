@@ -3,7 +3,7 @@ import { DashboardData } from '../../../models/types';
 
 export const loadDashboard = createAction(
   '[Dashboard]Load Dashboard',
-  props<{ dashboardsId: string }>(),
+  props<{ dashboardId: string }>(),
 );
 
 export const loadDashboardSuccess = createAction(
@@ -13,7 +13,7 @@ export const loadDashboardSuccess = createAction(
 
 export const loadDashboardFailure = createAction(
   '[Dashboard] Load Dashboard Failure',
-  props<{ error: string }>,
+  props<{ error: string }>(),
 );
 
 export const enterEditMode = createAction('[Dashboard] Enter Edit Mode');
