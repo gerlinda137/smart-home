@@ -13,13 +13,14 @@ import { authTokenInterceptor } from './interceptors/auth-token-interceptor';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { unauthHandleInterceptor } from './interceptors/unauth-handle-interceptor';
 import { AuthInitService } from './services/auth-init-service/auth-init-service';
+import { dashboardReducer } from './store/dashboard/dashboard.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([authTokenInterceptor, unauthHandleInterceptor])),
-    provideStore({}),
+    provideStore({ dashboard: dashboardReducer }),
     provideEffects([]),
     provideStoreDevtools({
       maxAge: 25,
