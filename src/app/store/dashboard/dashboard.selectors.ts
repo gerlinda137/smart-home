@@ -14,3 +14,7 @@ export const selectOriginalSnapshot = createSelector(
   selectDashboardState,
   (state) => state.originalSnapshot,
 );
+
+export const selectIsLoading = createSelector(selectDashboardState, (state) => state.isLoading);
+
+export const selectError = createSelector(selectDashboardState, (state) => state.error);

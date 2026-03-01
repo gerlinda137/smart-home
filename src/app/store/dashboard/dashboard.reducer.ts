@@ -6,16 +6,30 @@ export const initialState: DashboardState = {
   selectedDashboard: null,
   isEditMode: false,
   originalSnapshot: null,
+  isLoading: false,
+  error: null,
 };
 
 export const dashboardReducer = createReducer(
   initialState,
 
-  on(DashboardActions.loadDashboard, (state) => state),
+  on(DashboardActions.loadDashboard, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
 
   on(DashboardActions.loadDashboardSuccess, (state, { dashboard }) => ({
     ...state,
     selectedDashboard: dashboard,
+    isLoading: false,
+    error: null,
+  })),
+
+  on(DashboardActions.loadDashboardFailure, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    error,
   })),
 
   on(DashboardActions.enterEditMode, (state) => ({
