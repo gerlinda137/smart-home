@@ -60,4 +60,23 @@ export const dashboardReducer = createReducer(
     isLoading: false,
     error,
   })),
+
+  on(DashboardActions.addTab, (state, { title }) => {
+    if (!state.selectedDashboard) return state;
+    const id = title.toLowerCase().replace(/\s+/g, '-');
+
+    const newTab = {
+      id,
+      title,
+      cards: [],
+    };
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: [...state.selectedDashboard.tabs, newTab],
+      },
+    };
+  }),
 );
