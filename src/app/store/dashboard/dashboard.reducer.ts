@@ -43,4 +43,21 @@ export const dashboardReducer = createReducer(
     isEditMode: false,
     originalSnapshot: null,
   })),
+
+  on(DashboardActions.createDashboard, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
+
+  on(DashboardActions.createDashboardSuccess, (state) => ({
+    ...state,
+    isLoading: false,
+  })),
+
+  on(DashboardActions.createDashboardFailure, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    error,
+  })),
 );
