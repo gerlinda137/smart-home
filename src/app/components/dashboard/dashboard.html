@@ -1,8 +1,32 @@
-<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="selectedIndex"
-  (selectedTabChange)="onTabChange($event.index)">
-  @for (tab of dashboard.tabs; track tab.id) {
-  <mat-tab [label]="tab.title">
-    <app-card-list [cards]="tab.cards"></app-card-list>
-  </mat-tab>
+<div class="tabs-wrapper">
+  <div class="tabs-header">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="selectedIndex"
+      (selectedTabChange)="onTabChange($event.index)">
+      @for (tab of dashboard.tabs; track tab.id) {
+      <mat-tab [label]="tab.title">
+        <app-card-list [cards]="tab.cards"></app-card-list>
+      </mat-tab>
+      }
+    </mat-tab-group>
+  </div>
+  @if (isEditMode$()) {
+  @if (!isAddingTab()) {
+  <button mat-raised-button color="primary" class="add-tab-btn" (click)="showAddTabForm()">
+    <mat-icon>add</mat-icon>Add new tab
+
+  </button>} @else {
+  <div class="add-tab-form">
+
+    <input #tabInput matInput type="text" placeholder="Tab name" />
+
+    <button mat-icon-button color="primary" (click)="addTab(tabInput.value); tabInput.value = ''">
+      <mat-icon>check</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="cancelAddTab()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
   }
-</mat-tab-group>
+  }
+</div>
