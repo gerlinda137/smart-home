@@ -26,4 +26,8 @@ export class DashboardService {
   createDashboard(dashboard: Dashboard): Observable<Dashboard> {
     return this.http.post<Dashboard>('/dashboards', dashboard);
   }
+
+  deleteDashboard(id: string) {
+    return this.http.delete<Dashboard>(`/dashboards/${id}`);
+  }
 }

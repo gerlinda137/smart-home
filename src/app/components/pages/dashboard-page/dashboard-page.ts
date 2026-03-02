@@ -85,4 +85,9 @@ export class DashboardPage implements OnInit {
   exitEditMode() {
     this.store.dispatch(DashboardActions.exitEditMode());
   }
+
+  deleteDashboard() {
+    const dashboardId = this.route.snapshot.params['dashboardId'];
+    this.store.dispatch(DashboardActions.deleteDashboard({ dashboardId }));
+  }
 }

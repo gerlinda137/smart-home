@@ -23,6 +23,29 @@ export class DashboardEffects {
     { dispatch: false },
   );
 
+  navigateAfterDelete$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DashboardActions.deleteDashboardSuccess),
+        switchMap(() =>
+          this.dashboardService.getDashboards().pipe(
+            tap((dashboards) => {
+              if (dashboards.length > 0) {
+                const firstDashboard = dashboards[0];
+                this.dashboardService.getDashboardById(firstDashboard.id).subscribe((detail) => {
+                  const firstTab = detail.tabs[0];
+                  void this.router.navigate(['/dashboard', firstDashboard.id, firstTab.id]);
+                });
+              } else {
+                void this.router.navigate(['/']);
+              }
+            }),
+          ),
+        ),
+      ),
+    { dispatch: false },
+  );
+
   loadDashboard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DashboardActions.loadDashboard),
@@ -67,6 +90,25 @@ export class DashboardEffects {
 
           catchError((error) =>
             of(DashboardActions.createDashboardFailure({ error: error.message })),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  deleteDashboard$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DashboardActions.deleteDashboard),
+      switchMap(({ dashboardId }) =>
+        this.dashboardService.deleteDashboard(dashboardId).pipe(
+          switchMap(() =>
+            of(
+              DashboardActions.deleteDashboardSuccess({ dashboardId }),
+              DashboardActions.loadDashboards(),
+            ),
+          ),
+          catchError((error) =>
+            of(DashboardActions.deleteDashboardFailure({ error: error.message })),
           ),
         ),
       ),
