@@ -77,4 +77,12 @@ export class DashboardPage implements OnInit {
     if (!this.isMobile()) return;
     this.isOpen.set(false);
   }
+
+  enterEditMode() {
+    this.store.dispatch(DashboardActions.enterEditMode());
+  }
+
+  exitEditMode() {
+    this.store.dispatch(DashboardActions.exitEditMode());
+  }
 }
