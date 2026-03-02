@@ -23,6 +23,29 @@ export class DashboardEffects {
     { dispatch: false },
   );
 
+  navigateAfterDelete$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(DashboardActions.deleteDashboardSuccess),
+        switchMap(() =>
+          this.dashboardService.getDashboards().pipe(
+            tap((dashboards) => {
+              if (dashboards.length > 0) {
+                const firstDashboard = dashboards[0];
+                this.dashboardService.getDashboardById(firstDashboard.id).subscribe((detail) => {
+                  const firstTab = detail.tabs[0];
+                  void this.router.navigate(['/dashboard', firstDashboard.id, firstTab.id]);
+                });
+              } else {
+                void this.router.navigate(['/']);
+              }
+            }),
+          ),
+        ),
+      ),
+    { dispatch: false },
+  );
+
   loadDashboard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DashboardActions.loadDashboard),

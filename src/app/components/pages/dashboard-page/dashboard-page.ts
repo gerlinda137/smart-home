@@ -88,6 +88,6 @@ export class DashboardPage implements OnInit {
 
   deleteDashboard() {
     const dashboardId = this.route.snapshot.params['dashboardId'];
-    this.store.dispatch(DashboardActions.deleteDashboard(dashboardId));
+    this.store.dispatch(DashboardActions.deleteDashboard({ dashboardId }));
   }
 }
