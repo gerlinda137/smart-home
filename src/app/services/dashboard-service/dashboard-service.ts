@@ -22,4 +22,8 @@ export class DashboardService {
   getDashboardById(id: string): Observable<DashboardData> {
     return this.http.get<DashboardData>(`/dashboards/${id}`);
   }
+
+  createDashboard(dashboard: Dashboard): Observable<Dashboard> {
+    return this.http.post<Dashboard>('/dashboards', dashboard);
+  }
 }
