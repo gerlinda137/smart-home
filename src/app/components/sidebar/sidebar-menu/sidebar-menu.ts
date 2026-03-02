@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Dashboard, DashboardService } from '../../../services/dashboard-service/dashboard-service';
 import { AuthStateService } from '../../../services/auth-service/auth-state-service';
 import { Router, RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Actions, ofType } from '@ngrx/effects';
+import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -14,9 +16,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './sidebar-menu.scss',
 })
 export class SidebarMenu {
-  dashboardService = inject(DashboardService);
-  authStateService = inject(AuthStateService);
-  router = inject(Router);
+  private dashboardService = inject(DashboardService);
+  private authStateService = inject(AuthStateService);
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private cdr = inject(ChangeDetectorRef);
 
   dashboards: Dashboard[] = [];
   isLoading = false;
@@ -30,6 +34,11 @@ export class SidebarMenu {
       } else {
         this.dashboards = [];
       }
+    });
+
+    this.actions$.pipe(ofType(DashboardActions.createDashboardSuccess)).subscribe(() => {
+      this.loadDashboards();
+      this.cdr.detectChanges();
     });
   }
 

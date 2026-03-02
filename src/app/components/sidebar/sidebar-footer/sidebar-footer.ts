@@ -6,6 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TokenStorageService } from '../../../services/token-storage/token-storage';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DashboardModal } from '../../dashboard-modal/dashboard-modal';
 
 @Component({
   selector: 'app-sidebar-footer',
@@ -16,13 +18,18 @@ import { Router } from '@angular/router';
 })
 export class SidebarFooter {
   userProfile$ = inject(AuthStateService).userProfile$;
-  authService = inject(AuthStateService);
-  tokenStorage = inject(TokenStorageService);
-  router = inject(Router);
+  private authService = inject(AuthStateService);
+  private tokenStorage = inject(TokenStorageService);
+  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   logout() {
     this.authService.setAuthenticated(false);
     this.tokenStorage.clearToken();
     this.router.navigate(['/login']);
+  }
+
+  openCreateDashboardModal() {
+    this.dialog.open(DashboardModal);
   }
 }
