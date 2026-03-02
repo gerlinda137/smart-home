@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, Signal, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+  Signal,
+  signal,
+} from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CardList } from '../card-list/card-list';
 import { DashboardData, Tab } from '../../../models/types';
@@ -7,6 +16,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Store } from '@ngrx/store';
+import * as DashboardActions from '../../store/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +40,7 @@ export class Dashboard implements OnChanges {
 
   @Output() tabSelected = new EventEmitter<string>();
   isAddingTab = signal(false);
+  private store = inject(Store);
 
   selectedIndex = 0;
 
@@ -54,6 +66,7 @@ export class Dashboard implements OnChanges {
 
   addTab(title: string) {
     if (!title || !title.trim()) return;
+    this.store.dispatch(DashboardActions.addTab({ title: title.trim() }));
     this.isAddingTab.set(false);
   }
 }
