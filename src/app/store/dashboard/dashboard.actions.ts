@@ -46,3 +46,18 @@ export const createDashboardFailure = createAction(
   '[Dashboard] Create Dashboard Failure',
   props<{ error: string }>(),
 );
+
+export const deleteDashboard = createAction(
+  '[Dashboard] Delete Dashboard',
+  props<{ dashboardId: string }>(),
+);
+
+export const deleteDashboardSuccess = createAction(
+  '[Dashboard] Delete Dashboard Success',
+  props<{ dashboardId: string }>(),
+);
+
+export const deleteDashboardFailure = createAction(
+  '[Dashboard] Delete Dashboard Failure',
+  props<{ error: string }>(),
+);
