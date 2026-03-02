@@ -10,6 +10,7 @@ import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 import { Store } from '@ngrx/store';
 import {
   selectError,
+  selectIsEditMode,
   selectIsLoading,
   selectSelectedDashboard,
 } from '../../../store/dashboard/dashboard.selectors';
@@ -35,6 +36,7 @@ export class DashboardPage implements OnInit {
   dashboard$ = this.store.selectSignal(selectSelectedDashboard);
   isLoading$ = this.store.selectSignal(selectIsLoading);
   error$ = this.store.selectSignal(selectError);
+  isEditMode$ = this.store.selectSignal(selectIsEditMode);
 
   private mediaQuery = window.matchMedia('(max-width: 1024px)');
 
