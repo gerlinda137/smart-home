@@ -13,20 +13,24 @@
 
       @if(dashboard$()){
       @if (!isEditMode$()) {
-      <button mat-raised-button color="primary" (click)="enterEditMode()">
-        <mat-icon>edit</mat-icon>
-        Edit
-      </button>
+      <div class="dashboard__controls">
+        <button mat-raised-button color="primary" (click)="enterEditMode()">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+      </div>
       } @else {
-      <button mat-raised-button color="accent" (click)="exitEditMode()">
-        <mat-icon>close</mat-icon>
-        Discard
-      </button>
+      <div class="dashboard__controls">
+        <button mat-raised-button color="accent" (click)="exitEditMode()">
+          <mat-icon>close</mat-icon>
+          Discard
+        </button>
 
-      <button mat-raised-button color="primary" (click)="exitEditMode()">
-        <mat-icon>save</mat-icon>
-        Save
-      </button>
+        <button mat-raised-button color="primary" (click)="exitEditMode()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+      </div>
       }
       }
     </header>
