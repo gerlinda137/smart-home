@@ -24,4 +24,34 @@ export class DashboardEffects {
       ),
     ),
   );
+
+  loadDashboards$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DashboardActions.loadDashboards),
+      switchMap(() =>
+        this.dashboardService.getDashboards().pipe(
+          map((dashboards) => DashboardActions.loadDashboardsSuccess({ dashboards })),
+
+          catchError((error) =>
+            of(DashboardActions.loadDashboardsFailure({ error: error.message })),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  createDashboard$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DashboardActions.createDashboard),
+      switchMap(({ id, title, icon }) =>
+        this.dashboardService.createDashboard({ id, title, icon }).pipe(
+          map((dashboard) => DashboardActions.createDashboardSuccess({ dashboard })),
+
+          catchError((error) =>
+            of(DashboardActions.createDashboardFailure({ error: error.message })),
+          ),
+        ),
+      ),
+    ),
+  );
 }

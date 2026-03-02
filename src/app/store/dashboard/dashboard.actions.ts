@@ -17,6 +17,18 @@ export const loadDashboardFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const loadDashboards = createAction('[Dashboard]Load Dashboards');
+
+export const loadDashboardsSuccess = createAction(
+  '[Dashboard] Load Dashboards Success',
+  props<{ dashboards: Dashboard[] }>(),
+);
+
+export const loadDashboardsFailure = createAction(
+  '[Dashboard] Load Dashboards Failure',
+  props<{ error: string }>(),
+);
+
 export const enterEditMode = createAction('[Dashboard] Enter Edit Mode');
 export const exitEditMode = createAction('[Dashboard] Exit Edit Mode');
 
