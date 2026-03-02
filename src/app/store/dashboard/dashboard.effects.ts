@@ -45,7 +45,12 @@ export class DashboardEffects {
       ofType(DashboardActions.createDashboard),
       switchMap(({ id, title, icon }) =>
         this.dashboardService.createDashboard({ id, title, icon }).pipe(
-          map((dashboard) => DashboardActions.createDashboardSuccess({ dashboard })),
+          switchMap((dashboard) =>
+            of(
+              DashboardActions.createDashboardSuccess({ dashboard }),
+              DashboardActions.loadDashboards(),
+            ),
+          ),
 
           catchError((error) =>
             of(DashboardActions.createDashboardFailure({ error: error.message })),
