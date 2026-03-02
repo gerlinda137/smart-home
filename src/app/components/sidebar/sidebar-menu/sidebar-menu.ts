@@ -40,6 +40,11 @@ export class SidebarMenu {
       this.loadDashboards();
       this.cdr.detectChanges();
     });
+
+    this.actions$.pipe(ofType(DashboardActions.deleteDashboardSuccess)).subscribe(() => {
+      this.loadDashboards();
+      this.cdr.detectChanges();
+    });
   }
 
   loadDashboards() {
