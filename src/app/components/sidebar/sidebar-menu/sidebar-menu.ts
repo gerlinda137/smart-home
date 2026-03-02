@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Dashboard, DashboardService } from '../../../services/dashboard-service/dashboard-service';
@@ -20,6 +20,7 @@ export class SidebarMenu {
   private authStateService = inject(AuthStateService);
   private router = inject(Router);
   private actions$ = inject(Actions);
+  private cdr = inject(ChangeDetectorRef);
 
   dashboards: Dashboard[] = [];
   isLoading = false;
@@ -35,9 +36,10 @@ export class SidebarMenu {
       }
     });
 
-    this.actions$
-      .pipe(ofType(DashboardActions.createDashboardSuccess))
-      .subscribe(() => this.loadDashboards());
+    this.actions$.pipe(ofType(DashboardActions.createDashboardSuccess)).subscribe(() => {
+      this.loadDashboards();
+      this.cdr.detectChanges();
+    });
   }
 
   loadDashboards() {
