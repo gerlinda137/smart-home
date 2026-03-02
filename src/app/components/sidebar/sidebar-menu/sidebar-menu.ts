@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Dashboard, DashboardService } from '../../../services/dashboard-service/dashboard-service';
@@ -24,7 +24,7 @@ export class SidebarMenu {
   private route = inject(ActivatedRoute);
 
   dashboards: Dashboard[] = [];
-  isLoading = false;
+  isLoading = signal(false);
   error: string | null = null;
 
   constructor() {
@@ -52,21 +52,19 @@ export class SidebarMenu {
   }
 
   loadDashboards() {
-    setTimeout(() => {
-      this.isLoading = true;
-      this.error = null;
+    this.isLoading.set(true);
+    this.error = null;
 
-      this.dashboardService.getDashboards().subscribe({
-        next: (dashboards) => {
-          this.dashboards = dashboards;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.error = 'Error in loading dashboards';
-          this.isLoading = false;
-        },
-      });
-    }, 0);
+    this.dashboardService.getDashboards().subscribe({
+      next: (dashboards) => {
+        this.dashboards = dashboards;
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.error = 'Error in loading dashboards';
+        this.isLoading.set(false);
+      },
+    });
   }
 
   selectDashboard(dashboardId: string) {
