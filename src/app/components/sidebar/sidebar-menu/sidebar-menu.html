@@ -25,7 +25,7 @@
   <div class="dashboard-list">
     @for (dashboard of dashboards; track trackById($index, dashboard)) {
     <button class="dashboard-item" (click)="selectDashboard(dashboard.id)"
-      [class.active]="dashboard.id === activeDashboardId" routerLinkActive="active">
+      [class.active]="isActiveDashboard(dashboard.id)">
       <mat-icon>{{ dashboard.icon }}</mat-icon>
       <span>{{ dashboard.title }}</span>
     </button>
