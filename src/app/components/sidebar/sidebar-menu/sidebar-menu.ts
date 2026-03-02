@@ -5,6 +5,8 @@ import { Dashboard, DashboardService } from '../../../services/dashboard-service
 import { AuthStateService } from '../../../services/auth-service/auth-state-service';
 import { Router, RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Actions, ofType } from '@ngrx/effects';
+import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -14,9 +16,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './sidebar-menu.scss',
 })
 export class SidebarMenu {
-  dashboardService = inject(DashboardService);
-  authStateService = inject(AuthStateService);
-  router = inject(Router);
+  private dashboardService = inject(DashboardService);
+  private authStateService = inject(AuthStateService);
+  private router = inject(Router);
+  private actions$ = inject(Actions);
 
   dashboards: Dashboard[] = [];
   isLoading = false;
@@ -31,6 +34,10 @@ export class SidebarMenu {
         this.dashboards = [];
       }
     });
+
+    this.actions$
+      .pipe(ofType(DashboardActions.createDashboardSuccess))
+      .subscribe(() => this.loadDashboards());
   }
 
   loadDashboards() {
