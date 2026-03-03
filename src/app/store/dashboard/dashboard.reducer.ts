@@ -79,4 +79,17 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.removeTab, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+    const updateTabs = state.selectedDashboard.tabs.filter((tab) => tab.id !== tabId);
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updateTabs,
+      },
+    };
+  }),
 );
