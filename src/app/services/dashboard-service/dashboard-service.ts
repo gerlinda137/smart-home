@@ -30,4 +30,8 @@ export class DashboardService {
   deleteDashboard(id: string) {
     return this.http.delete<Dashboard>(`/dashboards/${id}`);
   }
+
+  updateDashboard(id: string, dashboard: Dashboard): Observable<DashboardData> {
+    return this.http.put<DashboardData>(`/dashboards/${id}`, dashboard);
+  }
 }
