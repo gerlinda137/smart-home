@@ -60,4 +60,8 @@ export class Dashboard implements OnChanges {
     this.store.dispatch(DashboardActions.addTab({ title: title.trim() }));
     this.isAddingTab.set(false);
   }
+
+  removeTab(tabId: string) {
+    this.store.dispatch(DashboardActions.removeTab({ tabId }));
+  }
 }

@@ -3,7 +3,15 @@
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="selectedIndex"
       (selectedTabChange)="onTabChange($event.index)">
       @for (tab of dashboard().tabs; track tab.id) {
-      <mat-tab [label]="tab.title">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tab-label">{{ tab.title }}</span>
+          @if (isEditMode$()()) {
+          <button mat-icon-button class="remove-tab-btn" (click)="removeTab(tab.id); $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+          </button>
+          }
+        </ng-template>
         <app-card-list [cards]="tab.cards"></app-card-list>
       </mat-tab>
       }
