@@ -31,6 +31,7 @@ export class Dashboard implements OnChanges {
 
   tabSelected = output<string>();
   isAddingTab = signal(false);
+  editingTabId = signal<string | null>(null);
   private store = inject(Store);
 
   selectedIndex = 0;
@@ -59,5 +60,33 @@ export class Dashboard implements OnChanges {
     if (!title || !title.trim()) return;
     this.store.dispatch(DashboardActions.addTab({ title: title.trim() }));
     this.isAddingTab.set(false);
+  }
+
+  removeTab(tabId: string) {
+    this.store.dispatch(DashboardActions.removeTab({ tabId }));
+  }
+
+  startEditTab(tabId: string) {
+    this.editingTabId.set(tabId);
+  }
+
+  cancelEditTab() {
+    this.editingTabId.set(null);
+  }
+
+  saveTabTitle(tabId: string, newTitle: string) {
+    if (!newTitle || !newTitle.trim()) {
+      this.editingTabId.set(null);
+      return;
+    }
+
+    this.store.dispatch(
+      DashboardActions.editTabTitle({
+        tabId,
+        newTitle: newTitle.trim(),
+      }),
+    );
+
+    this.editingTabId.set(null);
   }
 }

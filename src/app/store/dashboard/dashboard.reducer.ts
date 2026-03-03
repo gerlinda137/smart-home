@@ -79,4 +79,39 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.removeTab, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+    const updateTabs = state.selectedDashboard.tabs.filter((tab) => tab.id !== tabId);
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updateTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.editTabTitle, (state, { tabId, newTitle }) => {
+    if (!state.selectedDashboard) return state;
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        return {
+          ...tab,
+          title: newTitle,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
 );
