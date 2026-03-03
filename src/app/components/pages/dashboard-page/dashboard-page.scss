@@ -26,6 +26,13 @@
   cursor: pointer;
 }
 
+.dashboard__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
 @media (max-width: 1024px) {
   .icon-btn {
     display: inline-flex;

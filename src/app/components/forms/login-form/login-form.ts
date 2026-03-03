@@ -10,6 +10,7 @@ import { TokenStorageService } from '../../../services/token-storage/token-stora
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthStateService } from '../../../services/auth-service/auth-state-service';
+import { DashboardService } from '../../../services/dashboard-service/dashboard-service';
 
 @Component({
   selector: 'app-login-form',
@@ -28,10 +29,11 @@ import { AuthStateService } from '../../../services/auth-service/auth-state-serv
 export class LoginForm implements OnInit {
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
-  loginApiService = inject(UserApiService);
-  tokenStorage = inject(TokenStorageService);
+  private loginApiService = inject(UserApiService);
+  private tokenStorage = inject(TokenStorageService);
   private authState = inject(AuthStateService);
-  router = inject(Router);
+  private router = inject(Router);
+  private dashboardService = inject(DashboardService);
   errorMessage: string | null = null;
   isLoading = false;
 
@@ -68,7 +70,16 @@ export class LoginForm implements OnInit {
         next: (response) => {
           this.tokenStorage.saveToken(response.token);
           this.authState.setAuthenticated(true);
-          this.router.navigate(['']);
+
+          this.dashboardService.getDashboards().subscribe((dashboards) => {
+            if (dashboards.length > 0) {
+              const firstDashboard = dashboards[0];
+              this.dashboardService.getDashboardById(firstDashboard.id).subscribe((detail) => {
+                const firstTab = detail.tabs[0];
+                this.router.navigate(['/dashboard', firstDashboard.id, firstTab.id]);
+              });
+            }
+          });
         },
         error: (error) => {
           if (error.status === 401) {

@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Dashboard, DashboardService } from '../../../services/dashboard-service/dashboard-service';
 import { AuthStateService } from '../../../services/auth-service/auth-state-service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Actions, ofType } from '@ngrx/effects';
+import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -14,14 +16,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   styleUrl: './sidebar-menu.scss',
 })
 export class SidebarMenu {
-  dashboardService = inject(DashboardService);
-  authStateService = inject(AuthStateService);
-  router = inject(Router);
+  private dashboardService = inject(DashboardService);
+  private authStateService = inject(AuthStateService);
+  private router = inject(Router);
+  private actions$ = inject(Actions);
+  private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
 
   dashboards: Dashboard[] = [];
-  isLoading = false;
+  isLoading = signal(false);
   error: string | null = null;
-  activeDashboardId: string | null = null;
 
   constructor() {
     this.authStateService.isAuthenticated$.subscribe((isAuth) => {
@@ -31,26 +35,39 @@ export class SidebarMenu {
         this.dashboards = [];
       }
     });
+
+    this.actions$
+      .pipe(
+        ofType(DashboardActions.createDashboardSuccess, DashboardActions.deleteDashboardSuccess),
+      )
+      .subscribe(() => {
+        setTimeout(() => {
+          this.loadDashboards();
+        }, 0);
+      });
+  }
+
+  isActiveDashboard(dashboardId: string): boolean {
+    return this.router.url.includes(`/dashboard/${dashboardId}`);
   }
 
   loadDashboards() {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.error = null;
 
     this.dashboardService.getDashboards().subscribe({
       next: (dashboards) => {
         this.dashboards = dashboards;
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
       error: () => {
         this.error = 'Error in loading dashboards';
-        this.isLoading = false;
+        this.isLoading.set(false);
       },
     });
   }
 
   selectDashboard(dashboardId: string) {
-    this.activeDashboardId = dashboardId;
     this.dashboardService.getDashboardById(dashboardId).subscribe({
       next: (dashboard) => {
         const firstTab = dashboard.tabs[0];
