@@ -62,7 +62,10 @@ export const deleteDashboardFailure = createAction(
   props<{ error: string }>(),
 );
 
-export const saveDashboard = createAction('[Dashboard] Save dashboard');
+export const saveDashboard = createAction(
+  '[Dashboard] Save dashboard',
+  props<{ dashboardId: string }>(),
+);
 
 export const saveDashboardSuccess = createAction(
   '[Dashboard] Save dashboard success',

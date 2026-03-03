@@ -90,4 +90,9 @@ export class DashboardPage implements OnInit {
     const dashboardId = this.route.snapshot.params['dashboardId'];
     this.store.dispatch(DashboardActions.deleteDashboard({ dashboardId }));
   }
+
+  saveDashboard() {
+    const dashboardId = this.route.snapshot.params['dashboardId'];
+    this.store.dispatch(DashboardActions.saveDashboard({ dashboardId }));
+  }
 }
