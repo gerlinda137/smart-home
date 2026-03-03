@@ -92,4 +92,26 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.editTabTitle, (state, { tabId, newTitle }) => {
+    if (!state.selectedDashboard) return state;
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        return {
+          ...tab,
+          title: newTitle,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
 );
