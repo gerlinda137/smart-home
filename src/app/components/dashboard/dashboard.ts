@@ -1,13 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnChanges,
-  Output,
-  Signal,
-  signal,
-} from '@angular/core';
+import { Component, inject, input, OnChanges, output, Signal, signal } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CardList } from '../card-list/card-list';
 import { DashboardData, Tab } from '../../../models/types';
@@ -34,19 +25,19 @@ import * as DashboardActions from '../../store/dashboard/dashboard.actions';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard implements OnChanges {
-  @Input() dashboard!: DashboardData;
-  @Input() currentTab?: Tab;
-  @Input() isEditMode$!: Signal<boolean>;
+  dashboard = input.required<DashboardData>();
+  currentTab = input<Tab>();
+  isEditMode$ = input.required<Signal<boolean>>();
 
-  @Output() tabSelected = new EventEmitter<string>();
+  tabSelected = output<string>();
   isAddingTab = signal(false);
   private store = inject(Store);
 
   selectedIndex = 0;
 
   ngOnChanges() {
-    if (this.dashboard && this.currentTab) {
-      this.selectedIndex = this.dashboard.tabs.findIndex((t) => t.id === this.currentTab!.id);
+    if (this.dashboard() && this.currentTab()) {
+      this.selectedIndex = this.dashboard().tabs.findIndex((t) => t.id === this.currentTab()!.id);
     } else {
       this.selectedIndex = 0;
     }
@@ -57,7 +48,7 @@ export class Dashboard implements OnChanges {
   }
 
   onTabChange(index: number): void {
-    this.tabSelected.emit(this.dashboard.tabs[index].id);
+    this.tabSelected.emit(this.dashboard().tabs[index].id);
   }
 
   cancelAddTab() {

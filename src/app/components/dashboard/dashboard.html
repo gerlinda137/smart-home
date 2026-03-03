@@ -2,7 +2,7 @@
   <div class="tabs-header">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="selectedIndex"
       (selectedTabChange)="onTabChange($event.index)">
-      @for (tab of dashboard.tabs; track tab.id) {
+      @for (tab of dashboard().tabs; track tab.id) {
       <mat-tab [label]="tab.title">
         <app-card-list [cards]="tab.cards"></app-card-list>
       </mat-tab>
