@@ -61,3 +61,5 @@ export const deleteDashboardFailure = createAction(
   '[Dashboard] Delete Dashboard Failure',
   props<{ error: string }>(),
 );
+
+export const addTab = createAction('[Dashboard] Add Tab', props<{ title: string }>());

@@ -2,3 +2,21 @@
   background-color: var(--mat-sys-tertiary-container);
   background-color: red;
 }
+
+.tabs-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.add-tab-btn,
+.add-tab-form {
+  position: absolute;
+  top: 5px;
+  right: 16px;
+  z-index: 10;
+}
+
+.add-tab-form {
+  display: flex;
+  align-items: center;
+}
