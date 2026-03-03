@@ -114,4 +114,16 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.saveDashboardSuccess, (state, { dashboard }) => ({
+    ...state,
+    selectedDashboard: dashboard,
+    isEditMode: false,
+    originalSnapshot: null,
+  })),
+
+  on(DashboardActions.saveDashboardFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
 );

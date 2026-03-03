@@ -2,15 +2,18 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { DashboardService } from '../../services/dashboard-service/dashboard-service';
 import * as DashboardActions from './dashboard.actions';
-import { catchError, switchMap, map, tap } from 'rxjs';
+import { catchError, switchMap, map, tap, withLatestFrom } from 'rxjs';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { selectSelectedDashboard } from './dashboard.selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class DashboardEffects {
   private actions$ = inject(Actions);
   private dashboardService = inject(DashboardService);
   private router = inject(Router);
+  private store = inject(Store);
 
   navigateToCreatedDashboard$ = createEffect(
     () =>
@@ -93,6 +96,35 @@ export class DashboardEffects {
           ),
         ),
       ),
+    ),
+  );
+
+  saveDashboard$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DashboardActions.saveDashboard),
+      withLatestFrom(this.store.select(selectSelectedDashboard)),
+      switchMap((result) => {
+        const action = result[0];
+        const dashboard = result[1];
+
+        if (!dashboard) {
+          return of(
+            DashboardActions.saveDashboardFailure({
+              error: 'No dashboard to save',
+            }),
+          );
+        }
+        const dashboardId = action.dashboardId;
+        const data = { tabs: dashboard.tabs };
+        return this.dashboardService.updateDashboard(dashboardId, data).pipe(
+          map((updatedDashboard) =>
+            DashboardActions.saveDashboardSuccess({ dashboard: updatedDashboard }),
+          ),
+          catchError((error) =>
+            of(DashboardActions.saveDashboardFailure({ error: error.message })),
+          ),
+        );
+      }),
     ),
   );
 
