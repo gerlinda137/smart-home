@@ -65,3 +65,8 @@ export const deleteDashboardFailure = createAction(
 export const addTab = createAction('[Dashboard] Add Tab', props<{ title: string }>());
 
 export const removeTab = createAction('[Dashboard] Remove Tab', props<{ tabId: string }>());
+
+export const editTabTitle = createAction(
+  '[Dashboard] Edit dashboard title',
+  props<{ tabId: string; newTitle: string }>,
+);
