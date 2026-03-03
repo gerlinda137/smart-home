@@ -62,6 +62,18 @@ export const deleteDashboardFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const saveDashboard = createAction('[Dashboard] Save dashboard');
+
+export const saveDashboardSuccess = createAction(
+  '[Dashboard] Save dashboard success',
+  props<{ dashboard: DashboardData }>(),
+);
+
+export const saveDashboardFailure = createAction(
+  '[Dashboard] Save dashboard failure',
+  props<{ error: string }>(),
+);
+
 export const addTab = createAction('[Dashboard] Add Tab', props<{ title: string }>());
 
 export const removeTab = createAction('[Dashboard] Remove Tab', props<{ tabId: string }>());
