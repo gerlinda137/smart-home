@@ -9,7 +9,7 @@
       }
     </mat-tab-group>
   </div>
-  @if (isEditMode$()) {
+  @if (isEditMode$()()) {
   @if (!isAddingTab()) {
   <button mat-raised-button color="primary" class="add-tab-btn" (click)="showAddTabForm()">
     <mat-icon>add</mat-icon>Add new tab
