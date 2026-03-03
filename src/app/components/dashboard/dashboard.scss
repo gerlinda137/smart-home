@@ -20,3 +20,26 @@
   display: flex;
   align-items: center;
 }
+
+.tab-label {
+  margin-right: 0.5rem;
+}
+
+.remove-tab-btn {
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  margin-left: 0.25rem;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover {
+    color: var(--mat-sys-error);
+  }
+}
