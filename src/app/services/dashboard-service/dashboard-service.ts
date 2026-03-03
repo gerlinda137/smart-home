@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DashboardData } from '../../../models/types';
+import { DashboardData, Tab } from '../../../models/types';
 
 export interface Dashboard {
   id: string;
@@ -31,7 +31,7 @@ export class DashboardService {
     return this.http.delete<Dashboard>(`/dashboards/${id}`);
   }
 
-  updateDashboard(id: string, dashboard: Dashboard): Observable<DashboardData> {
-    return this.http.put<DashboardData>(`/dashboards/${id}`, dashboard);
+  updateDashboard(id: string, data: { tabs: Tab[] }): Observable<DashboardData> {
+    return this.http.put<DashboardData>(`/dashboards/${id}`, data);
   }
 }
