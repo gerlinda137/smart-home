@@ -3,9 +3,15 @@
   <div class="card-wrapper">
     <app-card [layoutClass]="layoutClass(card)" [isActive]="isCardActive(card)" [card]="card"></app-card>
     @if (isEditMode()) {
-    <button mat-icon-button color="warn" class="remove-card-btn" (click)="onRemoveCard(card.id)">
-      <mat-icon>delete</mat-icon>
-    </button>
+    <div class="card-controls">
+      <button mat-icon-button class="edit-card-btn" (click)="onEditCard(card)">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" class="remove-card-btn" (click)="onRemoveCard(card.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+    </div>
 
     }
   </div>
