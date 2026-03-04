@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { DashboardData } from '../../../models/types';
+import { CardItem, CardModel, DashboardData } from '../../../models/types';
 import { Dashboard } from '../../services/dashboard-service/dashboard-service';
 
 export const loadDashboard = createAction(
@@ -84,4 +84,33 @@ export const removeTab = createAction('[Dashboard] Remove Tab', props<{ tabId: s
 export const editTabTitle = createAction(
   '[Dashboard] Edit tab title',
   props<{ tabId: string; newTitle: string }>(),
+);
+
+export const moveTabLeft = createAction('[Dashboard] Move Tab left', props<{ tabId: string }>());
+
+export const moveTabRight = createAction('[Dashboard] Move Tab right', props<{ tabId: string }>());
+
+export const addCard = createAction(
+  '[Dashboard] Add cart',
+  props<{ tabId: string; card: CardModel }>(),
+);
+
+export const removeCard = createAction(
+  '[Dashboard] Remove Card',
+  props<{ tabId: string; cardId: string }>(),
+);
+
+export const editCardContent = createAction(
+  '[Dashboard] Edit Card Content',
+  props<{
+    tabId: string;
+    cardId: string;
+    title: string;
+    items: CardItem[];
+  }>(),
+);
+
+export const reorderCard = createAction(
+  '[Dashboard] Reorder Card',
+  props<{ tabId: string; cardId: string; newIndex: number }>(),
 );

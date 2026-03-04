@@ -38,11 +38,21 @@ export const dashboardReducer = createReducer(
     originalSnapshot: state.selectedDashboard,
   })),
 
-  on(DashboardActions.exitEditMode, (state) => ({
-    ...state,
-    isEditMode: false,
-    originalSnapshot: null,
-  })),
+  on(DashboardActions.exitEditMode, (state) => {
+    if (state.originalSnapshot) {
+      return {
+        ...state,
+        selectedDashboard: state.originalSnapshot,
+        isEditMode: false,
+        originalSnapshot: null,
+      };
+    }
+    return {
+      ...state,
+      isEditMode: false,
+      originalSnapshot: null,
+    };
+  }),
 
   on(DashboardActions.createDashboard, (state) => ({
     ...state,
@@ -126,4 +136,157 @@ export const dashboardReducer = createReducer(
     ...state,
     error,
   })),
+
+  on(DashboardActions.moveTabLeft, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const tabs = state.selectedDashboard.tabs;
+    const currentTabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    if (currentTabIndex <= 0) return state;
+
+    const newTabs = [...tabs];
+    const prevTab = newTabs[currentTabIndex - 1];
+    newTabs[currentTabIndex - 1] = newTabs[currentTabIndex];
+    newTabs[currentTabIndex] = prevTab;
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: newTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.moveTabRight, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const tabs = state.selectedDashboard.tabs;
+    const currentTabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    if (currentTabIndex < 0 || currentTabIndex >= tabs.length) return state;
+
+    const newTabs = [...tabs];
+    const nextTab = newTabs[currentTabIndex + 1];
+    newTabs[currentTabIndex + 1] = newTabs[currentTabIndex];
+    newTabs[currentTabIndex] = nextTab;
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: newTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.addCard, (state, { tabId, card }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = [...tab.cards, card];
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else return tab;
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.removeCard, (state, { tabId, cardId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = tab.cards.filter((card) => card.id !== cardId);
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else return tab;
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.editCardContent, (state, { tabId, cardId, title, items }) => {
+    if (!state.selectedDashboard) return state;
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = tab.cards.map((card) => {
+          if (card.id === cardId) {
+            return {
+              ...card,
+              title,
+              items,
+            };
+          } else {
+            return card;
+          }
+        });
+
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.reorderCard, (state, { tabId, cardId, newIndex }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const cards = tab.cards;
+        const currentIndex = cards.findIndex((card) => card.id === cardId);
+
+        if (currentIndex === -1 || newIndex < 0 || newIndex >= cards.length) {
+          return tab;
+        }
+        const newCards = [...cards];
+        const movedCard = newCards.splice(currentIndex, 1)[0];
+        newCards.splice(newIndex, 0, movedCard);
+
+        return {
+          ...tab,
+          cards: newCards,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
 );

@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Dashboard, DashboardService } from '../../../services/dashboard-service/dashboard-service';
 import { AuthStateService } from '../../../services/auth-service/auth-state-service';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Actions, ofType } from '@ngrx/effects';
 import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
@@ -20,8 +20,7 @@ export class SidebarMenu {
   private authStateService = inject(AuthStateService);
   private router = inject(Router);
   private actions$ = inject(Actions);
-  private cdr = inject(ChangeDetectorRef);
-  private route = inject(ActivatedRoute);
+
 
   dashboards: Dashboard[] = [];
   isLoading = signal(false);
@@ -68,15 +67,7 @@ export class SidebarMenu {
   }
 
   selectDashboard(dashboardId: string) {
-    this.dashboardService.getDashboardById(dashboardId).subscribe({
-      next: (dashboard) => {
-        const firstTab = dashboard.tabs[0];
-        this.router.navigate(['/dashboard', dashboardId, firstTab.id]);
-      },
-      error: () => {
-        console.log('Failed to load dashboard');
-      },
-    });
+    this.router.navigate(['/dashboard', dashboardId]);
   }
 
   trackById(index: number, dashboard: Dashboard): string {

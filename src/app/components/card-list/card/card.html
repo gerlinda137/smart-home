@@ -1,15 +1,15 @@
-<mat-card class="card" [appActiveCard]="isActive" [ngClass]="layoutClass">
+<mat-card class="card" [appActiveCard]="isActive()" [class]="layoutClass()">
   <div class="card__header">
-    <mat-card-title class="card__title">{{ card.title }}</mat-card-title>
+    <mat-card-title class="card__title">{{ card().title }}</mat-card-title>
     @if (showGroupToggle()) {
     <mat-slide-toggle [checked]="groupChecked()" (change)="onGroupToggle($event)">
     </mat-slide-toggle>
     }
   </div>
 
-
+  @if (card().items.length > 0) {
   <div class="card__items">
-    @for (item of card.items; track item.label) {
+    @for (item of card().items; track item.label) {
     @switch (item.type) {
     @case ('sensor') {
     <app-sensor [sensor]="item"></app-sensor>
@@ -21,6 +21,13 @@
     }
     }
   </div>
+  }@else {
+  <div class="empty-state">
+    <mat-icon class="empty-icon">devices</mat-icon>
+    <p class="empty-text">No devices added yet</p>
+    <p class="empty-hint">Click the ⋮ button to add devices</p>
+  </div>
+  }
 
 
 

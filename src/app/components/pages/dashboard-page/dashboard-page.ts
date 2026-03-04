@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Dashboard } from '../../dashboard/dashboard';
 import { Sidebar } from '../../sidebar/sidebar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 import { Store } from '@ngrx/store';
 import {
@@ -23,7 +23,6 @@ import {
 })
 export class DashboardPage implements OnInit {
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private store = inject(Store);
 
   @ViewChild('sidenav') sidenav!: MatSidenav;
@@ -61,11 +60,6 @@ export class DashboardPage implements OnInit {
         this.store.dispatch(DashboardActions.loadDashboard({ dashboardId }));
       }
     });
-  }
-
-  selectTab(tabId: string): void {
-    const dashboardId = this.route.snapshot.params['dashboardId'];
-    this.router.navigate(['/dashboard', dashboardId, tabId]);
   }
 
   toggleSideNav() {

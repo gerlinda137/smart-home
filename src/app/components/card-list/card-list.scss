@@ -30,3 +30,34 @@
     flex-direction: column;
   }
 }
+
+.card-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.card-controls {
+  display: flex;
+  position: absolute;
+  gap: 6px;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+
+  button {
+    position: static;
+    cursor: pointer;
+  }
+}
+
+.reorder-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.position-number {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 500;
+}
