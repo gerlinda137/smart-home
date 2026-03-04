@@ -49,3 +49,15 @@
     cursor: pointer;
   }
 }
+
+.reorder-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.position-number {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 500;
+}

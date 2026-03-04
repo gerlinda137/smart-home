@@ -21,6 +21,7 @@ export class CardList {
 
   removeCard = output<{ tabId: string; cardId: string }>();
   editCard = output<{ tabId: string; cardId: string; title: string; items: CardItem[] }>();
+  reorderCard = output<{ tabId: string; cardId: string; newIndex: number }>();
 
   isCardActive(card: CardModel): boolean {
     return card.items.some((item) => item.type === 'device' && item.state === true);
@@ -60,6 +61,28 @@ export class CardList {
           items: result.items,
         });
       }
+    });
+  }
+
+  moveCardUp(cardId: string, currentIndex: number) {
+    if (currentIndex === 0) return;
+
+    const newIndex = currentIndex - 1;
+    this.reorderCard.emit({
+      tabId: this.tabId(),
+      cardId: cardId,
+      newIndex: newIndex,
+    });
+  }
+
+  moveCardDown(cardId: string, currentIndex: number) {
+    if (currentIndex === this.cards().length - 1) return;
+
+    const newIndex = currentIndex + 1;
+    this.reorderCard.emit({
+      tabId: this.tabId(),
+      cardId: cardId,
+      newIndex: newIndex,
     });
   }
 }
