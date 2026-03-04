@@ -179,7 +179,7 @@ export const dashboardReducer = createReducer(
     };
   }),
 
-  on(DashboardActions.addCart, (state, { tabId, card }) => {
+  on(DashboardActions.addCard, (state, { tabId, card }) => {
     if (!state.selectedDashboard) return state;
 
     const updatedTabs = state.selectedDashboard.tabs.map((tab) => {

@@ -90,7 +90,7 @@ export const moveTabLeft = createAction('[Dashboard] Move Tab left', props<{ tab
 
 export const moveTabRight = createAction('[Dashboard] Move Tab right', props<{ tabId: string }>());
 
-export const addCart = createAction(
+export const addCard = createAction(
   '[Dashboard] Add cart',
   props<{ tabId: string; card: CardModel }>(),
 );

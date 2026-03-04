@@ -106,7 +106,20 @@ export class Dashboard implements OnChanges {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result && result.layout) {
-        console.log('Create card with layout:', result.layout, 'in tab:', tabId);
+        const cardId = 'card-' + Date.now();
+        const newCard = {
+          id: cardId,
+          title: '',
+          layout: result.layout,
+          items: [],
+        };
+
+        this.store.dispatch(
+          DashboardActions.addCard({
+            tabId: tabId,
+            card: newCard,
+          }),
+        );
       }
     });
   }
