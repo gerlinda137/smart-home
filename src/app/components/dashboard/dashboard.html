@@ -36,11 +36,13 @@
           }
 
         </ng-template>
-        <app-card-list [cards]="tab.cards"></app-card-list>
-        <button mat-fab extended color="primary" class="add-card-btn" (click)="openAddCardModal(tab.id)">
+        <app-card-list [cards]="tab.cards" [isEditMode]="isEditMode$()()" [tabId]="tab.id"
+          (removeCard)="onRemoveCard($event)"></app-card-list>
+        @if(isEditMode$()()) {<button mat-fab extended color="primary" class="add-card-btn"
+          (click)="openAddCardModal(tab.id)">
           <mat-icon>add</mat-icon>
           Add Card
-        </button>
+        </button>}
       </mat-tab>
       }
     </mat-tab-group>

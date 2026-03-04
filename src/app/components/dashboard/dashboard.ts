@@ -123,4 +123,13 @@ export class Dashboard implements OnChanges {
       }
     });
   }
+
+  onRemoveCard(event: { tabId: string; cardId: string }) {
+    this.store.dispatch(
+      DashboardActions.removeCard({
+        tabId: event.tabId,
+        cardId: event.cardId,
+      }),
+    );
+  }
 }

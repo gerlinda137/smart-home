@@ -200,4 +200,26 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.removeCard, (state, { tabId, cardId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = tab.cards.filter((card) => card.id !== cardId);
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else return tab;
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
 );

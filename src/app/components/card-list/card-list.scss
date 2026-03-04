@@ -30,3 +30,15 @@
     flex-direction: column;
   }
 }
+
+.card-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.remove-card-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
