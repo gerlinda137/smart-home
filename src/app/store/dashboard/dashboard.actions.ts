@@ -85,3 +85,7 @@ export const editTabTitle = createAction(
   '[Dashboard] Edit tab title',
   props<{ tabId: string; newTitle: string }>(),
 );
+
+export const moveTabLeft = createAction('[Dashboard] Move Tab left', props<{ tabId: string }>());
+
+export const moveTabRight = createAction('[Dashboard] Move Tab right', props<{ tabId: string }>());
