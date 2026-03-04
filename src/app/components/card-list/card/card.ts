@@ -1,28 +1,26 @@
-import { Component, computed, Input, signal } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from '@angular/material/icon';
 import { CardModel, DeviceItem } from '../../../../models/types';
 import { Sensor } from './sensor/sensor';
 import { Device } from './device/device';
-import { NgClass } from '@angular/common';
 import { ActiveCardDirective } from '../../../directives/active.directive';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [MatCardModule, MatSlideToggle, NgClass, Sensor, Device, ActiveCardDirective],
+  imports: [MatCardModule, MatSlideToggle, Sensor, Device, ActiveCardDirective, MatIcon],
   templateUrl: './card.html',
   styleUrl: './card.scss',
 })
 export class Card {
-  @Input({ required: true }) card!: CardModel;
-  @Input() layoutClass = '';
-  @Input() isActive = false;
-
-  private uiState = signal<Record<string, boolean>>({});
+  card = input.required<CardModel>();
+  layoutClass = input<string>('');
+  isActive = input<boolean>(false);
 
   private devices(): DeviceItem[] {
-    return this.card.items.filter((i) => i.type === 'device') as DeviceItem[];
+    return this.card().items.filter((i) => i.type === 'device') as DeviceItem[];
   }
 
   showGroupToggle = computed(() => this.devices().length >= 2);

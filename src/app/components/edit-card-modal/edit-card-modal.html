@@ -32,7 +32,7 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Select an Entity</mat-label>
         <mat-select (selectionChange)="addDevice($event.value)">
-          @for (device of availableDevices(); track device.label) {
+          @for (device of availableDevices(); track $index) {
           <mat-option [value]="device">
             <mat-icon>{{ device.icon }}</mat-icon>
             {{ device.label }}
