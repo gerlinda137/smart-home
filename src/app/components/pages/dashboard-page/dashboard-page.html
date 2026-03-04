@@ -52,8 +52,7 @@
     }
 
     @if (!isLoading$() && !error$() && dashboard$(); as dashboard ) {
-    <app-dashboard [dashboard]="dashboard" [isEditMode$]="isEditMode$"
-      (tabSelected)="selectTab($event)"></app-dashboard>
+    <app-dashboard [dashboard]="dashboard" [isEditMode$]="isEditMode$"></app-dashboard>
     }
   </mat-sidenav-content>
 </mat-sidenav-container>

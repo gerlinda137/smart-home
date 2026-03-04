@@ -20,7 +20,7 @@ export class DashboardEffects {
       this.actions$.pipe(
         ofType(DashboardActions.createDashboardSuccess),
         tap(({ dashboard }) => {
-          void this.router.navigate(['/dashboard', dashboard.id, 'main']);
+          void this.router.navigate(['/dashboard', dashboard.id]);
         }),
       ),
     { dispatch: false },
@@ -34,11 +34,7 @@ export class DashboardEffects {
           this.dashboardService.getDashboards().pipe(
             tap((dashboards) => {
               if (dashboards.length > 0) {
-                const firstDashboard = dashboards[0];
-                this.dashboardService.getDashboardById(firstDashboard.id).subscribe((detail) => {
-                  const firstTab = detail.tabs[0];
-                  void this.router.navigate(['/dashboard', firstDashboard.id, firstTab.id]);
-                });
+                void this.router.navigate(['/dashboard', dashboards[0].id]);
               } else {
                 void this.router.navigate(['/']);
               }
