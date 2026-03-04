@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { CardModel, DashboardData } from '../../../models/types';
+import { CardItem, CardModel, DashboardData } from '../../../models/types';
 import { Dashboard } from '../../services/dashboard-service/dashboard-service';
 
 export const loadDashboard = createAction(
@@ -98,4 +98,14 @@ export const addCard = createAction(
 export const removeCard = createAction(
   '[Dashboard] Remove Card',
   props<{ tabId: string; cardId: string }>(),
+);
+
+export const editCardContent = createAction(
+  '[Dashboard] Edit Card Content',
+  props<{
+    tabId: string;
+    cardId: string;
+    title: string;
+    items: CardItem[];
+  }>(),
 );
