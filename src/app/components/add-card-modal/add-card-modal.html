@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Add New Card</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="cardForm" class="card-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Select Layout</mat-label>
+      <mat-select formControlName="layout">
+        <mat-option value="singleDevice">Single Device</mat-option>
+        <mat-option value="horizontalLayout">Horizontal Layout</mat-option>
+        <mat-option value="verticalLayout">Vertical Layout</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="cardForm.invalid">
+    Create Card
+  </button>
+</mat-dialog-actions>
