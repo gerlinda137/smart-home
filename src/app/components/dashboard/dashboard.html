@@ -36,9 +36,16 @@
           }
 
         </ng-template>
+        @if(tab.cards.length > 0) {
         <app-card-list [cards]="tab.cards" [isEditMode]="isEditMode$()()" [tabId]="tab.id"
           (removeCard)="onRemoveCard($event)" (editCard)="onEditCard($event)"
-          (reorderCard)="onReorderCard($event)"></app-card-list>
+          (reorderCard)="onReorderCard($event)"></app-card-list>} @else {<div class="tab-empty-state">
+          <mat-icon class="empty-icon">dashboard</mat-icon>
+          <p class="empty-text">This tab is empty</p>
+          @if (isEditMode$()()) {
+          <p class="empty-hint">Click "Add Card" below to get started</p>
+          }
+        </div>}
         @if(isEditMode$()()) {<button mat-fab extended color="primary" class="add-card-btn"
           (click)="openAddCardModal(tab.id)">
           <mat-icon>add</mat-icon>
