@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { DashboardData } from '../../../models/types';
+import { CardModel, DashboardData } from '../../../models/types';
 import { Dashboard } from '../../services/dashboard-service/dashboard-service';
 
 export const loadDashboard = createAction(
@@ -89,3 +89,8 @@ export const editTabTitle = createAction(
 export const moveTabLeft = createAction('[Dashboard] Move Tab left', props<{ tabId: string }>());
 
 export const moveTabRight = createAction('[Dashboard] Move Tab right', props<{ tabId: string }>());
+
+export const addCart = createAction(
+  '[Dashboard] Add cart',
+  props<{ tabId: string; card: CardModel }>(),
+);
