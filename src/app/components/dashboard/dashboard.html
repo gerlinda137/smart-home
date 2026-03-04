@@ -37,7 +37,8 @@
 
         </ng-template>
         <app-card-list [cards]="tab.cards" [isEditMode]="isEditMode$()()" [tabId]="tab.id"
-          (removeCard)="onRemoveCard($event)" (editCard)="onEditCard($event)"></app-card-list>
+          (removeCard)="onRemoveCard($event)" (editCard)="onEditCard($event)"
+          (reorderCard)="onReorderCard($event)"></app-card-list>
         @if(isEditMode$()()) {<button mat-fab extended color="primary" class="add-card-btn"
           (click)="openAddCardModal(tab.id)">
           <mat-icon>add</mat-icon>

@@ -109,3 +109,8 @@ export const editCardContent = createAction(
     items: CardItem[];
   }>(),
 );
+
+export const reorderCard = createAction(
+  '[Dashboard] Reorder Card',
+  props<{ tabId: string; cardId: string; newIndex: number }>(),
+);

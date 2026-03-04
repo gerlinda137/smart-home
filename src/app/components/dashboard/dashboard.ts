@@ -143,4 +143,14 @@ export class Dashboard implements OnChanges {
       }),
     );
   }
+
+  onReorderCard(event: { tabId: string; cardId: string; newIndex: number }) {
+    this.store.dispatch(
+      DashboardActions.reorderCard({
+        tabId: event.tabId,
+        cardId: event.cardId,
+        newIndex: event.newIndex,
+      }),
+    );
+  }
 }

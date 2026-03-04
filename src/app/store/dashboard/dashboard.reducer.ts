@@ -256,4 +256,37 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.reorderCard, (state, { tabId, cardId, newIndex }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const cards = tab.cards;
+        const currentIndex = cards.findIndex((card) => card.id === cardId);
+
+        if (currentIndex === -1 || newIndex < 0 || newIndex >= cards.length) {
+          return tab;
+        }
+        const newCards = [...cards];
+        const movedCard = newCards.splice(currentIndex, 1)[0];
+        newCards.splice(newIndex, 0, movedCard);
+
+        return {
+          ...tab,
+          cards: newCards,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
 );
