@@ -89,4 +89,12 @@ export class Dashboard implements OnChanges {
 
     this.editingTabId.set(null);
   }
+
+  moveTabLeft(tabId: string) {
+    this.store.dispatch(DashboardActions.moveTabLeft({ tabId }));
+  }
+
+  moveTabRight(tabId: string) {
+    this.store.dispatch(DashboardActions.moveTabRight({ tabId }));
+  }
 }

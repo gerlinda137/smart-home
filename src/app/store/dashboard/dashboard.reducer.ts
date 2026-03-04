@@ -136,4 +136,46 @@ export const dashboardReducer = createReducer(
     ...state,
     error,
   })),
+
+  on(DashboardActions.moveTabLeft, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const tabs = state.selectedDashboard.tabs;
+    const currentTabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    if (currentTabIndex <= 0) return state;
+
+    const newTabs = [...tabs];
+    const prevTab = newTabs[currentTabIndex - 1];
+    newTabs[currentTabIndex - 1] = newTabs[currentTabIndex];
+    newTabs[currentTabIndex] = prevTab;
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: newTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.moveTabRight, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const tabs = state.selectedDashboard.tabs;
+    const currentTabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    if (currentTabIndex < 0 || currentTabIndex >= tabs.length) return state;
+
+    const newTabs = [...tabs];
+    const nextTab = newTabs[currentTabIndex + 1];
+    newTabs[currentTabIndex + 1] = newTabs[currentTabIndex];
+    newTabs[currentTabIndex] = nextTab;
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: newTabs,
+      },
+    };
+  }),
 );
