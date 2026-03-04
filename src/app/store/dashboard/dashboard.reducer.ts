@@ -38,11 +38,21 @@ export const dashboardReducer = createReducer(
     originalSnapshot: state.selectedDashboard,
   })),
 
-  on(DashboardActions.exitEditMode, (state) => ({
-    ...state,
-    isEditMode: false,
-    originalSnapshot: null,
-  })),
+  on(DashboardActions.exitEditMode, (state) => {
+    if (state.originalSnapshot) {
+      return {
+        ...state,
+        selectedDashboard: state.originalSnapshot,
+        isEditMode: false,
+        originalSnapshot: null,
+      };
+    }
+    return {
+      ...state,
+      isEditMode: false,
+      originalSnapshot: null,
+    };
+  }),
 
   on(DashboardActions.createDashboard, (state) => ({
     ...state,
