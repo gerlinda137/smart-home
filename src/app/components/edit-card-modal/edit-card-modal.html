@@ -1,0 +1,53 @@
+<h2 mat-dialog-title>Edit Card</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="cardForm" class="edit-card-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Card Title (optional)</mat-label>
+      <input matInput formControlName="title" placeholder="e.g., Living Room" />
+    </mat-form-field>
+
+    <div class="current-items-section">
+      <h3>Current Items</h3>
+
+      @if (currentItems().length === 0) {
+      <p class="empty-state">No items added yet</p>
+      } @else {
+      <mat-list>
+        @for (item of currentItems(); track $index) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+          <button mat-icon-button matListItemMeta (click)="removeDevice($index)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-list-item>
+        }
+      </mat-list>
+      }
+    </div>
+
+    <div class="add-device-section">
+      <h3>Add Item</h3>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Select an Entity</mat-label>
+        <mat-select (selectionChange)="addDevice($event.value)">
+          @for (device of availableDevices(); track device.label) {
+          <mat-option [value]="device">
+            <mat-icon>{{ device.icon }}</mat-icon>
+            {{ device.label }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">
+    Save
+  </button>
+</mat-dialog-actions>

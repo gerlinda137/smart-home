@@ -1,8 +1,10 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { Card } from './card/card';
-import { CardModel } from '../../../models/types';
+import { CardItem, CardModel } from '../../../models/types';
 import { ActiveCardDirective } from '../../directives/active.directive';
 import { MatIcon } from '@angular/material/icon';
+import { EditCardModal } from '../edit-card-modal/edit-card-modal';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-card-list',
@@ -15,8 +17,10 @@ export class CardList {
   cards = input.required<CardModel[]>();
   isEditMode = input<boolean>(false);
   tabId = input.required<string>();
+  private dialog = inject(MatDialog);
 
   removeCard = output<{ tabId: string; cardId: string }>();
+  editCard = output<{ tabId: string; cardId: string; title: string; items: CardItem[] }>();
 
   isCardActive(card: CardModel): boolean {
     return card.items.some((item) => item.type === 'device' && item.state === true);
@@ -39,6 +43,23 @@ export class CardList {
     this.removeCard.emit({
       tabId: this.tabId(),
       cardId: cardId,
+    });
+  }
+
+  onEditCard(card: CardModel) {
+    const dialogRef = this.dialog.open(EditCardModal, {
+      data: { card },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.editCard.emit({
+          tabId: this.tabId(),
+          cardId: card.id,
+          title: result.title,
+          items: result.items,
+        });
+      }
     });
   }
 }

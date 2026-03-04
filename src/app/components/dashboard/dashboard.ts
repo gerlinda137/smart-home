@@ -1,7 +1,7 @@
 import { Component, inject, input, OnChanges, output, Signal, signal } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CardList } from '../card-list/card-list';
-import { DashboardData, Tab } from '../../../models/types';
+import { CardItem, DashboardData, Tab } from '../../../models/types';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -129,6 +129,17 @@ export class Dashboard implements OnChanges {
       DashboardActions.removeCard({
         tabId: event.tabId,
         cardId: event.cardId,
+      }),
+    );
+  }
+
+  onEditCard(event: { tabId: string; cardId: string; title: string; items: CardItem[] }) {
+    this.store.dispatch(
+      DashboardActions.editCardContent({
+        tabId: event.tabId,
+        cardId: event.cardId,
+        title: event.title,
+        items: event.items,
       }),
     );
   }
