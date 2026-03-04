@@ -94,3 +94,8 @@ export const addCard = createAction(
   '[Dashboard] Add cart',
   props<{ tabId: string; card: CardModel }>(),
 );
+
+export const removeCard = createAction(
+  '[Dashboard] Remove Card',
+  props<{ tabId: string; cardId: string }>(),
+);
