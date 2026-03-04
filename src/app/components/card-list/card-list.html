@@ -1,9 +1,18 @@
 <div class="card-list">
-  @for (card of cards(); track card.id) {
+  @for (card of cards(); track card.id; let index = $index) {
   <div class="card-wrapper">
     <app-card [layoutClass]="layoutClass(card)" [isActive]="isCardActive(card)" [card]="card"></app-card>
     @if (isEditMode()) {
     <div class="card-controls">
+      <div class="reorder-controls">
+        <button mat-icon-button (click)="moveCardUp(card.id, index)" [disabled]="index === 0">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <span class="position-number">{{ index + 1 }}</span>
+        <button mat-icon-button (click)="moveCardDown(card.id, index)" [disabled]="index === cards().length - 1">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
       <button mat-icon-button class="edit-card-btn" (click)="onEditCard(card)">
         <mat-icon>more_vert</mat-icon>
       </button>
