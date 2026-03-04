@@ -36,9 +36,16 @@
   margin-bottom: 1rem;
 }
 
-.remove-card-btn {
+.card-controls {
+  display: flex;
   position: absolute;
+  gap: 6px;
   top: 8px;
   right: 8px;
   z-index: 10;
+
+  button {
+    position: static;
+    cursor: pointer;
+  }
 }
