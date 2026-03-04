@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '../../store/dashboard/dashboard.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { AddCardModal } from '../add-card-modal/add-card-modal';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,6 +35,7 @@ export class Dashboard implements OnChanges {
   isAddingTab = signal(false);
   editingTabId = signal<string | null>(null);
   private store = inject(Store);
+  private dialog = inject(MatDialog);
 
   selectedIndex = 0;
 
@@ -96,5 +99,28 @@ export class Dashboard implements OnChanges {
 
   moveTabRight(tabId: string) {
     this.store.dispatch(DashboardActions.moveTabRight({ tabId }));
+  }
+
+  openAddCardModal(tabId: string) {
+    const dialogRef = this.dialog.open(AddCardModal);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.layout) {
+        const cardId = 'card-' + Date.now();
+        const newCard = {
+          id: cardId,
+          title: '',
+          layout: result.layout,
+          items: [],
+        };
+
+        this.store.dispatch(
+          DashboardActions.addCard({
+            tabId: tabId,
+            card: newCard,
+          }),
+        );
+      }
+    });
   }
 }

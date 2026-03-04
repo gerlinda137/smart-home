@@ -178,4 +178,26 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.addCard, (state, { tabId, card }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = [...tab.cards, card];
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else return tab;
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
 );

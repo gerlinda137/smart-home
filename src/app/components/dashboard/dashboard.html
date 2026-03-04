@@ -37,6 +37,10 @@
 
         </ng-template>
         <app-card-list [cards]="tab.cards"></app-card-list>
+        <button mat-fab extended color="primary" class="add-card-btn" (click)="openAddCardModal(tab.id)">
+          <mat-icon>add</mat-icon>
+          Add Card
+        </button>
       </mat-tab>
       }
     </mat-tab-group>
