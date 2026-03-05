@@ -20,6 +20,7 @@ export class Card {
   card = input.required<CardModel>();
   layoutClass = input<string>('');
   isActive = input<boolean>(false);
+  isEditMode = input<boolean>(false);
   private store = inject(Store);
 
   private devices(): DeviceItem[] {
