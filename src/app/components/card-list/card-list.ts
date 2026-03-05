@@ -1,7 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { Card } from './card/card';
 import { CardItem, CardModel } from '../../../models/types';
-import { ActiveCardDirective } from '../../directives/active.directive';
 import { MatIcon } from '@angular/material/icon';
 import { EditCardModal } from '../edit-card-modal/edit-card-modal';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-card-list',
   standalone: true,
-  imports: [Card, ActiveCardDirective, MatIcon],
+  imports: [Card, MatIcon],
   templateUrl: './card-list.html',
   styleUrl: './card-list.scss',
 })
