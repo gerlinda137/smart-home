@@ -289,4 +289,49 @@ export const dashboardReducer = createReducer(
       },
     };
   }),
+
+  on(DashboardActions.toggleDeviceStateSuccess, (state, action) => {
+    if (!state.selectedDashboard) return state;
+
+    const deviceId = action.deviceId;
+    const newState = action.newState;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      const updatedCards = tab.cards.map((card) => {
+        const updatedItems = card.items.map((item) => {
+          if (item.type === 'device' && item.id === deviceId) {
+            return {
+              ...item,
+              state: newState,
+            };
+          } else {
+            return item;
+          }
+        });
+
+        return {
+          ...card,
+          items: updatedItems,
+        };
+      });
+
+      return {
+        ...tab,
+        cards: updatedCards,
+      };
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.toggleDeviceStateFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+  })),
 );
