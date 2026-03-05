@@ -1,4 +1,4 @@
-<mat-card class="card" [appActiveCard]="isActive()" [class]="layoutClass()">
+<mat-card class="card" [appActiveCard]="isActive()" [class]="layoutClass()" [class.card--edit-mode]="isEditMode()">
   <div class="card__header">
     <mat-card-title class="card__title">{{ card().title }}</mat-card-title>
     @if (showGroupToggle()) {

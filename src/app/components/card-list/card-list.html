@@ -1,7 +1,7 @@
 <div class="card-list">
   @for (card of cards(); track card.id; let index = $index) {
   <div class="card-wrapper">
-    <app-card [layoutClass]="layoutClass(card)" [isActive]="isCardActive(card)" [card]="card"></app-card>
+    <app-card [layoutClass]="layoutClass(card)" [isActive]="isCardActive(card)" [card]="card" [isEditMode]="isEditMode()"></app-card>
     @if (isEditMode()) {
     <div class="card-controls">
       <div class="reorder-controls">

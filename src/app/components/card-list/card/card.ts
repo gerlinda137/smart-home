@@ -20,6 +20,7 @@ export class Card {
   card = input.required<CardModel>();
   layoutClass = input<string>('');
   isActive = input<boolean>(false);
+  isEditMode = input<boolean>(false);
   private store = inject(Store);
 
   private devices(): DeviceItem[] {
@@ -45,7 +46,7 @@ export class Card {
   onGroupToggle(e: MatSlideToggleChange) {
     const checked = e.checked;
     for (const d of this.devices()) {
-      d.state = checked;
+      this.store.dispatch(DashboardActions.toggleDeviceState({ deviceId: d.id, newState: checked }));
     }
   }
 }
