@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  signal,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { DeviceItem } from '../../../../../models/types';
@@ -18,32 +10,34 @@ import { DeviceItem } from '../../../../../models/types';
   templateUrl: './device.html',
   styleUrl: './device.scss',
 })
-export class Device implements OnChanges {
-  @Input({ required: true }) device!: DeviceItem;
-
-  @Input() checked?: boolean;
+export class Device {
+  device = input.required<DeviceItem>();
+  checked = input<boolean>();
 
   toggleState = signal(false);
 
-  @Output() stateChange = new EventEmitter<boolean>();
+  stateChange = output<{ label: string; state: boolean }>();
 
-  onDeviceStateChange(item: DeviceItem, newState: boolean) {
-    item.state = newState;
-  }
+  constructor() {
+    effect(() => {
+      const checkedValue = this.checked();
+      if (checkedValue !== undefined) {
+        this.toggleState.set(checkedValue);
+        return;
+      }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['checked']) {
-      this.toggleState.set(!!this.checked);
-      return;
-    }
-
-    if (changes['device'] && this.device) {
-      this.toggleState.set(this.device.state);
-    }
+      const deviceValue = this.device();
+      if (deviceValue) {
+        this.toggleState.set(deviceValue.state);
+      }
+    });
   }
 
   onToggle(checked: boolean) {
     this.toggleState.set(checked);
-    this.stateChange.emit(checked);
+    this.stateChange.emit({
+      label: this.device().label,
+      state: checked,
+    });
   }
 }

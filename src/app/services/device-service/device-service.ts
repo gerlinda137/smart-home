@@ -12,4 +12,8 @@ export class DeviceService {
   getDevices(): Observable<CardItem[]> {
     return this.http.get<CardItem[]>('/devices');
   }
+
+  updateDeviceState(deviceId: string, newState: boolean): Observable<void> {
+    return this.http.patch<void>(`/devices/${deviceId}`, { state: newState });
+  }
 }

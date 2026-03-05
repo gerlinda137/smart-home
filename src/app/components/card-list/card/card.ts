@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { CardModel, DeviceItem } from '../../../../models/types';
@@ -6,6 +6,8 @@ import { Sensor } from './sensor/sensor';
 import { Device } from './device/device';
 import { ActiveCardDirective } from '../../../directives/active.directive';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Store } from '@ngrx/store';
+import * as DashboardActions from '../../../store/dashboard/dashboard.actions';
 
 @Component({
   selector: 'app-card',
@@ -18,6 +20,7 @@ export class Card {
   card = input.required<CardModel>();
   layoutClass = input<string>('');
   isActive = input<boolean>(false);
+  private store = inject(Store);
 
   private devices(): DeviceItem[] {
     return this.card().items.filter((i) => i.type === 'device') as DeviceItem[];
@@ -27,8 +30,16 @@ export class Card {
 
   groupChecked = computed(() => this.devices().some((d) => d.state === true));
 
-  onDeviceStateChange(item: DeviceItem, newState: boolean) {
-    item.state = newState;
+  onDeviceStateChange(item: DeviceItem, event: { label: string; state: boolean }) {
+    const deviceId = item.id;
+    const newState = event.state;
+
+    this.store.dispatch(
+      DashboardActions.toggleDeviceState({
+        deviceId: deviceId,
+        newState: newState,
+      }),
+    );
   }
 
   onGroupToggle(e: MatSlideToggleChange) {

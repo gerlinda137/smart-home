@@ -7,12 +7,14 @@ import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { selectSelectedDashboard } from './dashboard.selectors';
 import { Store } from '@ngrx/store';
+import { DeviceService } from '../../services/device-service/device-service';
 
 @Injectable()
 export class DashboardEffects {
   private actions$ = inject(Actions);
   private dashboardService = inject(DashboardService);
   private router = inject(Router);
+  private deviceService = inject(DeviceService);
   private store = inject(Store);
 
   navigateToCreatedDashboard$ = createEffect(
@@ -140,6 +142,31 @@ export class DashboardEffects {
           ),
         ),
       ),
+    ),
+  );
+
+  toggleDeviceState$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DashboardActions.toggleDeviceState),
+      switchMap((action) => {
+        const deviceId = action.deviceId;
+        const newState = action.newState;
+        return this.deviceService.updateDeviceState(deviceId, newState).pipe(
+          map(() =>
+            DashboardActions.toggleDeviceStateSuccess({
+              deviceId,
+              newState,
+            }),
+          ),
+          catchError((error) =>
+            of(
+              DashboardActions.toggleDeviceStateFailure({
+                error: error.message,
+              }),
+            ),
+          ),
+        );
+      }),
     ),
   );
 }

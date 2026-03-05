@@ -114,3 +114,18 @@ export const reorderCard = createAction(
   '[Dashboard] Reorder Card',
   props<{ tabId: string; cardId: string; newIndex: number }>(),
 );
+
+export const toggleDeviceState = createAction(
+  '[Dashboard] Toggle Device State',
+  props<{ deviceId: string; newState: boolean }>(),
+);
+
+export const toggleDeviceStateSuccess = createAction(
+  '[Dashboard] Toggle Device State Success',
+  props<{ deviceId: string; newState: boolean }>(),
+);
+
+export const toggleDeviceStateFailure = createAction(
+  '[Dashboard] Toggle Device State Failure',
+  props<{ error: string }>(),
+);

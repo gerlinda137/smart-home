@@ -28,11 +28,13 @@ export interface BaseItem {
 
 export interface DeviceItem extends BaseItem {
   type: 'device';
+  id: string;
   state: boolean;
 }
 
 export interface SensorItem extends BaseItem {
   type: 'sensor';
+  id: string;
   value: SensorValue;
 }
 
