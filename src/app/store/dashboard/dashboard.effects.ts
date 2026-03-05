@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { DashboardService } from '../../services/dashboard-service/dashboard-service';
 import * as DashboardActions from './dashboard.actions';
-import { catchError, switchMap, map, tap, withLatestFrom } from 'rxjs';
+import { catchError, switchMap, mergeMap, map, tap, withLatestFrom } from 'rxjs';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { selectSelectedDashboard } from './dashboard.selectors';
@@ -148,7 +148,7 @@ export class DashboardEffects {
   toggleDeviceState$ = createEffect(() =>
     this.actions$.pipe(
       ofType(DashboardActions.toggleDeviceState),
-      switchMap((action) => {
+      mergeMap((action) => {
         const deviceId = action.deviceId;
         const newState = action.newState;
         return this.deviceService.updateDeviceState(deviceId, newState).pipe(

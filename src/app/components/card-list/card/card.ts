@@ -45,7 +45,7 @@ export class Card {
   onGroupToggle(e: MatSlideToggleChange) {
     const checked = e.checked;
     for (const d of this.devices()) {
-      d.state = checked;
+      this.store.dispatch(DashboardActions.toggleDeviceState({ deviceId: d.id, newState: checked }));
     }
   }
 }
