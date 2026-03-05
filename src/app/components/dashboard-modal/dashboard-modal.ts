@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as DashboardActions from '../../store/dashboard/dashboard.actions';
+import { of, map, catchError } from 'rxjs';
+import { DashboardService } from '../../services/dashboard-service/dashboard-service';
 
 @Component({
   selector: 'app-dashboard-modal',
@@ -26,12 +28,35 @@ export class DashboardModal {
   private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<DashboardModal>);
   private store = inject(Store);
+  private dashboardService = inject(DashboardService);
 
   dashboardForm = this.fb.group({
-    id: ['', [Validators.required, Validators.maxLength(30)]],
+    id: ['', [Validators.required, Validators.maxLength(30)], this.uniqueIdValidator.bind(this)],
     title: ['', [Validators.required, Validators.maxLength(50)]],
     icon: ['', Validators.required],
   });
+
+  uniqueIdValidator(control: AbstractControl) {
+    if (!control.value) {
+      return of(null);
+    }
+
+    return this.dashboardService.getDashboards().pipe(
+      map((dashboards) => {
+        const exists = dashboards.some((d) => d.id === control.value);
+        return exists ? { uniqueId: true } : null;
+      }),
+      catchError(() => of(null)),
+    );
+  }
+
+  get id() {
+    return this.dashboardForm.get('id');
+  }
+
+  get title() {
+    return this.dashboardForm.get('title');
+  }
 
   get icon() {
     return this.dashboardForm.get('icon');

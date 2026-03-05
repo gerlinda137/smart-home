@@ -61,18 +61,35 @@
     <mat-icon>add</mat-icon>Add new tab
 
   </button>} @else {
-  <div class="add-tab-form">
+  <form [formGroup]="tabForm" class="add-tab-form">
 
-    <input #tabInput matInput type="text" placeholder="Tab name" />
+    <mat-form-field appearance="outline" class="tab-name-field" subscriptSizing="dynamic">
+      <mat-label>Tab name</mat-label>
+      <input matInput formControlName="title" placeholder="e.g., Kitchen" (keyup.enter)="addTab()"
+        (keyup.escape)="cancelAddTab()" />
 
-    <button mat-icon-button color="primary" (click)="addTab(tabInput.value); tabInput.value = ''">
+      @if (tabTitle?.errors && tabTitle?.touched) {
+      @if (tabTitle?.errors?.['required']) {
+      <mat-error>Title is required</mat-error>
+      }
+      @if (tabTitle?.errors?.['maxlength']) {
+      <mat-error>Title must be max 50 characters</mat-error>
+      }
+      @if (tabTitle?.errors?.['uniqueTitle']) {
+      <mat-error>A tab with this name already exists</mat-error>
+      }
+      }
+    </mat-form-field>
+
+    <button mat-icon-button color="primary" type="button" (click)="addTab()" [disabled]="tabForm.invalid">
       <mat-icon>check</mat-icon>
     </button>
 
-    <button mat-icon-button (click)="cancelAddTab()">
+    <button mat-icon-button type="button" (click)="cancelAddTab()">
       <mat-icon>close</mat-icon>
     </button>
-  </div>
+
+  </form>
   }
   }
 </div>
