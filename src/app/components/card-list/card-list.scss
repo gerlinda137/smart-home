@@ -1,0 +1,63 @@
+.card-list {
+  padding-top: 2em;
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  box-sizing: border-box;
+  grid-auto-flow: row dense;
+  padding: 1em;
+}
+
+.card__horizontal {
+  grid-column: span 2;
+}
+
+.card__vertical {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.card__single-device {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+@media (max-width: 1200px) {
+  .card-list {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.card-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.card-controls {
+  display: flex;
+  position: absolute;
+  gap: 6px;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+
+  button {
+    position: static;
+    cursor: pointer;
+  }
+}
+
+.reorder-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.position-number {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 500;
+}

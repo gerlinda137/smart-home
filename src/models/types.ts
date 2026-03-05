@@ -9,10 +9,10 @@ export interface DashboardData {
 export interface Tab {
   id: TabId | string;
   title: string;
-  cards: Card[];
+  cards: CardModel[];
 }
 
-export interface Card {
+export interface CardModel {
   id: string;
   title: string;
   layout: CardLayout;
@@ -28,11 +28,13 @@ export interface BaseItem {
 
 export interface DeviceItem extends BaseItem {
   type: 'device';
+  id: string;
   state: boolean;
 }
 
 export interface SensorItem extends BaseItem {
   type: 'sensor';
+  id: string;
   value: SensorValue;
 }
 

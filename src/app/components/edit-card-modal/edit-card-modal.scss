@@ -1,0 +1,29 @@
+.edit-card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 500px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.current-items-section,
+.add-device-section {
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.empty-state {
+  color: var(--mat-sys-on-surface-variant);
+  font-style: italic;
+  margin: 0;
+}
+
+mat-list {
+  padding: 0;
+}

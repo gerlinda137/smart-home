@@ -1,0 +1,23 @@
+:host {
+  padding: 0.5em 0;
+}
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.sidebar__header-btn {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .sidebar__header-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.sidenav {
+  width: 280px;
+}

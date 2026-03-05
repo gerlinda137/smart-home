@@ -1,0 +1,106 @@
+.mat-mdc-tab-header {
+  background-color: var(--mat-sys-tertiary-container);
+  background-color: red;
+}
+
+.tabs-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.add-tab-btn,
+.add-tab-form {
+  position: absolute;
+  top: 5px;
+  right: 16px;
+  z-index: 10;
+}
+
+.add-tab-form {
+  display: flex;
+  align-items: center;
+}
+
+.tab-label {
+  margin-right: 0.5rem;
+}
+
+.remove-tab-btn,
+.edit-tab-btn {
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  margin-left: 0.25rem;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover {
+    color: var(--mat-sys-error);
+  }
+}
+
+.tab-edit-form {
+  display: flex;
+  align-items: center;
+
+  button {
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 20px !important;
+    margin-left: 0.25rem;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+.tab-content {
+  padding: 1rem;
+  position: relative;
+}
+
+.tab-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+
+  .empty-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.3;
+    margin-bottom: 1rem;
+  }
+
+  .empty-text {
+    margin: 0;
+    font-size: 18px;
+    color: var(--mat-sys-on-surface-variant);
+    font-weight: 500;
+  }
+
+  .empty-hint {
+    margin: 0.5rem 0 0 0;
+    font-size: 14px;
+    color: var(--mat-sys-on-surface-variant);
+    opacity: 0.7;
+  }
+}
+
+.add-card-btn {
+  margin-top: 1rem;
+}

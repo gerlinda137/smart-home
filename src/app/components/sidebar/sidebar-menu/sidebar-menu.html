@@ -1,0 +1,35 @@
+<mat-nav-list class="sidebar-menu">
+
+  @if (isLoading()) {
+  <div class="loading-state">
+    <mat-spinner diameter="30"></mat-spinner>
+    <p>Loading...</p>
+  </div>
+  }
+
+  @if (error) {
+  <div class="error-state">
+    <p>{{ error }}</p>
+    <button (click)="loadDashboards()">Retry</button>
+  </div>
+  }
+
+  @if (!isLoading() && !error && dashboards.length === 0) {
+  <div class="empty-state">
+    <p>You don't have any dashboards yet.</p>
+    <p>They'll appear here as soon as you create them.</p>
+  </div>
+  }
+
+  @if (!isLoading() && !error && dashboards.length > 0) {
+  <div class="dashboard-list">
+    @for (dashboard of dashboards; track trackById($index, dashboard)) {
+    <button class="dashboard-item" (click)="selectDashboard(dashboard.id)"
+      [class.active]="isActiveDashboard(dashboard.id)">
+      <mat-icon>{{ dashboard.icon }}</mat-icon>
+      <span>{{ dashboard.title }}</span>
+    </button>
+    }
+  </div>
+  }
+</mat-nav-list>

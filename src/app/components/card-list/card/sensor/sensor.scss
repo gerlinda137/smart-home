@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sensor__title {
+  font-size: 0.875rem;
+  margin: 0;
+  color: var(--mat-sys-secondary);
+}
+.sensor__icon {
+  color: var(--mat-sys-tertiary);
+}

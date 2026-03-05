@@ -1,0 +1,95 @@
+<div class="tabs-wrapper">
+  <div class="tabs-header">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [selectedIndex]="selectedIndex"
+      (selectedTabChange)="onTabChange($event.index)">
+      @for (tab of dashboard().tabs; track tab.id) {
+      <mat-tab>
+        <ng-template mat-tab-label>
+          @if(editingTabId() !== tab.id) {
+          <span class="tab-label">{{ tab.title }}</span>
+          @if (isEditMode$()()) {
+          <button mat-icon-button class="move-tab-btn" (click)="moveTabLeft(tab.id); $event.stopPropagation()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <button mat-icon-button class="move-tab-btn" (click)="moveTabRight(tab.id); $event.stopPropagation()">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+          <button mat-icon-button class="edit-tab-btn" (click)="startEditTab(tab.id); $event.stopPropagation()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="remove-tab-btn" (click)="removeTab(tab.id); $event.stopPropagation()">
+            <mat-icon>close</mat-icon>
+          </button>
+          }
+          } @else {
+          <div class="tab-edit-form">
+            <input #editInput class="tab-edit-input" [value]="tab.title"
+              (keyup.enter)="saveTabTitle(tab.id, editInput.value)" />
+            <button mat-icon-button color="primary"
+              (click)="saveTabTitle(tab.id, editInput.value); $event.stopPropagation()">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button (click)="cancelEditTab(); $event.stopPropagation()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          }
+
+        </ng-template>
+        @if(tab.cards.length > 0) {
+        <app-card-list [cards]="tab.cards" [isEditMode]="isEditMode$()()" [tabId]="tab.id"
+          (removeCard)="onRemoveCard($event)" (editCard)="onEditCard($event)"
+          (reorderCard)="onReorderCard($event)"></app-card-list>} @else {<div class="tab-empty-state">
+          <mat-icon class="empty-icon">dashboard</mat-icon>
+          <p class="empty-text">This tab is empty</p>
+          @if (isEditMode$()()) {
+          <p class="empty-hint">Click "Add Card" below to get started</p>
+          }
+        </div>}
+        @if(isEditMode$()()) {<button mat-fab extended color="primary" class="add-card-btn"
+          (click)="openAddCardModal(tab.id)">
+          <mat-icon>add</mat-icon>
+          Add Card
+        </button>}
+      </mat-tab>
+      }
+    </mat-tab-group>
+  </div>
+  @if (isEditMode$()()) {
+  @if (!isAddingTab()) {
+  <button mat-raised-button color="primary" class="add-tab-btn" (click)="showAddTabForm()">
+    <mat-icon>add</mat-icon>Add new tab
+
+  </button>} @else {
+  <form [formGroup]="tabForm" class="add-tab-form">
+
+    <mat-form-field appearance="outline" class="tab-name-field" subscriptSizing="dynamic">
+      <mat-label>Tab name</mat-label>
+      <input matInput formControlName="title" placeholder="e.g., Kitchen" (keyup.enter)="addTab()"
+        (keyup.escape)="cancelAddTab()" />
+
+      @if (tabTitle?.errors && tabTitle?.touched) {
+      @if (tabTitle?.errors?.['required']) {
+      <mat-error>Title is required</mat-error>
+      }
+      @if (tabTitle?.errors?.['maxlength']) {
+      <mat-error>Title must be max 50 characters</mat-error>
+      }
+      @if (tabTitle?.errors?.['uniqueTitle']) {
+      <mat-error>A tab with this name already exists</mat-error>
+      }
+      }
+    </mat-form-field>
+
+    <button mat-icon-button color="primary" type="button" (click)="addTab()" [disabled]="tabForm.invalid">
+      <mat-icon>check</mat-icon>
+    </button>
+
+    <button mat-icon-button type="button" (click)="cancelAddTab()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+  </form>
+  }
+  }
+</div>

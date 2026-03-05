@@ -1,0 +1,6 @@
+<div class="device__toggle">
+  <mat-icon class="device__toggle-icon">{{ device().icon }}</mat-icon>
+  <span class="device__toggle-label">{{device().label}}</span>
+  <mat-slide-toggle [checked]="device().state" (change)="onToggle($event.checked)"
+    [aria-label]="`Toggle ${device().label}`"></mat-slide-toggle>
+</div>

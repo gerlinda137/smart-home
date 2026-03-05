@@ -1,0 +1,337 @@
+import { createReducer, on } from '@ngrx/store';
+import { DashboardState } from './dashboard.state';
+import * as DashboardActions from './dashboard.actions';
+
+export const initialState: DashboardState = {
+  selectedDashboard: null,
+  isEditMode: false,
+  originalSnapshot: null,
+  isLoading: false,
+  error: null,
+};
+
+export const dashboardReducer = createReducer(
+  initialState,
+
+  on(DashboardActions.loadDashboard, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
+
+  on(DashboardActions.loadDashboardSuccess, (state, { dashboard }) => ({
+    ...state,
+    selectedDashboard: dashboard,
+    isLoading: false,
+    error: null,
+  })),
+
+  on(DashboardActions.loadDashboardFailure, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    error,
+  })),
+
+  on(DashboardActions.enterEditMode, (state) => ({
+    ...state,
+    isEditMode: true,
+    originalSnapshot: state.selectedDashboard,
+  })),
+
+  on(DashboardActions.exitEditMode, (state) => {
+    if (state.originalSnapshot) {
+      return {
+        ...state,
+        selectedDashboard: state.originalSnapshot,
+        isEditMode: false,
+        originalSnapshot: null,
+      };
+    }
+    return {
+      ...state,
+      isEditMode: false,
+      originalSnapshot: null,
+    };
+  }),
+
+  on(DashboardActions.createDashboard, (state) => ({
+    ...state,
+    isLoading: true,
+    error: null,
+  })),
+
+  on(DashboardActions.createDashboardSuccess, (state) => ({
+    ...state,
+    isLoading: false,
+  })),
+
+  on(DashboardActions.createDashboardFailure, (state, { error }) => ({
+    ...state,
+    isLoading: false,
+    error,
+  })),
+
+  on(DashboardActions.addTab, (state, { title }) => {
+    if (!state.selectedDashboard) return state;
+    const id = title.toLowerCase().replace(/\s+/g, '-');
+
+    const newTab = {
+      id,
+      title,
+      cards: [],
+    };
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: [...state.selectedDashboard.tabs, newTab],
+      },
+    };
+  }),
+
+  on(DashboardActions.removeTab, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+    const updateTabs = state.selectedDashboard.tabs.filter((tab) => tab.id !== tabId);
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updateTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.editTabTitle, (state, { tabId, newTitle }) => {
+    if (!state.selectedDashboard) return state;
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        return {
+          ...tab,
+          title: newTitle,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.saveDashboardSuccess, (state, { dashboard }) => ({
+    ...state,
+    selectedDashboard: dashboard,
+    isEditMode: false,
+    originalSnapshot: null,
+  })),
+
+  on(DashboardActions.saveDashboardFailure, (state, { error }) => ({
+    ...state,
+    error,
+  })),
+
+  on(DashboardActions.moveTabLeft, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const tabs = state.selectedDashboard.tabs;
+    const currentTabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    if (currentTabIndex <= 0) return state;
+
+    const newTabs = [...tabs];
+    const prevTab = newTabs[currentTabIndex - 1];
+    newTabs[currentTabIndex - 1] = newTabs[currentTabIndex];
+    newTabs[currentTabIndex] = prevTab;
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: newTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.moveTabRight, (state, { tabId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const tabs = state.selectedDashboard.tabs;
+    const currentTabIndex = tabs.findIndex((tab) => tab.id === tabId);
+    if (currentTabIndex < 0 || currentTabIndex >= tabs.length) return state;
+
+    const newTabs = [...tabs];
+    const nextTab = newTabs[currentTabIndex + 1];
+    newTabs[currentTabIndex + 1] = newTabs[currentTabIndex];
+    newTabs[currentTabIndex] = nextTab;
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: newTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.addCard, (state, { tabId, card }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = [...tab.cards, card];
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else return tab;
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.removeCard, (state, { tabId, cardId }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = tab.cards.filter((card) => card.id !== cardId);
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else return tab;
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.editCardContent, (state, { tabId, cardId, title, items }) => {
+    if (!state.selectedDashboard) return state;
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const updatedCards = tab.cards.map((card) => {
+          if (card.id === cardId) {
+            return {
+              ...card,
+              title,
+              items,
+            };
+          } else {
+            return card;
+          }
+        });
+
+        return {
+          ...tab,
+          cards: updatedCards,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.reorderCard, (state, { tabId, cardId, newIndex }) => {
+    if (!state.selectedDashboard) return state;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      if (tab.id === tabId) {
+        const cards = tab.cards;
+        const currentIndex = cards.findIndex((card) => card.id === cardId);
+
+        if (currentIndex === -1 || newIndex < 0 || newIndex >= cards.length) {
+          return tab;
+        }
+        const newCards = [...cards];
+        const movedCard = newCards.splice(currentIndex, 1)[0];
+        newCards.splice(newIndex, 0, movedCard);
+
+        return {
+          ...tab,
+          cards: newCards,
+        };
+      } else {
+        return tab;
+      }
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.toggleDeviceStateSuccess, (state, action) => {
+    if (!state.selectedDashboard) return state;
+
+    const deviceId = action.deviceId;
+    const newState = action.newState;
+
+    const updatedTabs = state.selectedDashboard.tabs.map((tab) => {
+      const updatedCards = tab.cards.map((card) => {
+        const updatedItems = card.items.map((item) => {
+          if (item.type === 'device' && item.id === deviceId) {
+            return {
+              ...item,
+              state: newState,
+            };
+          } else {
+            return item;
+          }
+        });
+
+        return {
+          ...card,
+          items: updatedItems,
+        };
+      });
+
+      return {
+        ...tab,
+        cards: updatedCards,
+      };
+    });
+
+    return {
+      ...state,
+      selectedDashboard: {
+        ...state.selectedDashboard,
+        tabs: updatedTabs,
+      },
+    };
+  }),
+
+  on(DashboardActions.toggleDeviceStateFailure, (state, action) => ({
+    ...state,
+    error: action.error,
+  })),
+);

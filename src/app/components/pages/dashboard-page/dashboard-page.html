@@ -1,0 +1,58 @@
+<mat-sidenav-container class="layout">
+  <mat-sidenav #sidenav [mode]="sidenavMode()" [opened]="sidenavOpened()" (backdropClick)="closeSidebar()"
+    class="sidenav">
+    <app-sidebar class="sidebar" (toggleSideNav)="toggleSideNav()"></app-sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="content">
+    <header class="topbar">
+      <button class="icon-btn" type="button" (click)="toggleSideNav()" aria-label="Open menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="title">Smart Home UI</span>
+
+      @if(dashboard$()){
+      @if (!isEditMode$()) {
+      <div class="dashboard__controls">
+        <button mat-raised-button color="primary" (click)="enterEditMode()">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-raised-button color="primary" (click)="deleteDashboard()">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </div>
+      } @else {
+      <div class="dashboard__controls">
+        <button mat-raised-button color="accent" (click)="exitEditMode()">
+          <mat-icon>close</mat-icon>
+          Discard
+        </button>
+
+        <button mat-raised-button color="primary" (click)="saveDashboard()">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+      </div>
+      }
+      }
+    </header>
+
+    @if (isLoading$()) {
+    <div class="loading-state">
+      <p>Loading dashboard...</p>
+    </div>
+    }
+
+    @if (error$()) {
+    <div class="error-state">
+      <p>{{ error$() }}</p>
+    </div>
+    }
+
+    @if (!isLoading$() && !error$() && dashboard$(); as dashboard ) {
+    <app-dashboard [dashboard]="dashboard" [isEditMode$]="isEditMode$"></app-dashboard>
+    }
+  </mat-sidenav-content>
+</mat-sidenav-container>

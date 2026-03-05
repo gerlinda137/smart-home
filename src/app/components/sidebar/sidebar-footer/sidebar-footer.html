@@ -1,0 +1,38 @@
+<footer class="sidebar-footer">
+
+  <div class="sidebar-footer__controls">
+    <button mat-button (click)="openCreateDashboardModal()">
+      <mat-icon>add</mat-icon>
+      Add Dashboard
+    </button>
+  </div>
+
+
+  <div class="sidebar-footer__user-container">
+    @if (userProfile$ | async; as user) {
+    <div class="rs-badge" aria-label="RS School">
+      <span class="rs-badge__text">{{ user.initials }}</span>
+    </div>
+
+    <div class="footer-text">
+
+      <span class="footer-text__main">{{ user.fullName }}</span>
+      <span class="footer-text__accent"></span>
+      <button mat-button (click)="logout()" class="logout-btn">
+        <mat-icon>logout</mat-icon>
+        <span>Logout</span>
+      </button>
+    </div>
+    }
+    @else {
+    <div class="rs-badge" aria-label="RS School">
+      <span class="rs-badge__text">RS</span>
+    </div>
+
+    <div class="footer-text">
+      <span class="footer-text__main">RSSchool.</span>
+      <span class="footer-text__accent">Angular</span>
+    </div>
+    }
+  </div>
+</footer>
