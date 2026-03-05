@@ -9,11 +9,32 @@
       <mat-hint>Max 30 characters</mat-hint>
     </mat-form-field>
 
+    @if (id?.errors && id?.touched) {
+    @if (id?.errors?.['required']) {
+    <mat-error>ID is required</mat-error>
+    }
+    @if (id?.errors?.['maxlength']) {
+    <mat-error>ID must be max 30 characters</mat-error>
+    }
+    @if (id?.errors?.['uniqueId']) {
+    <mat-error>This ID already exists</mat-error>
+    }
+    }
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Title</mat-label>
       <input matInput formControlName="title" placeholder="e.g., Kitchen" />
       <mat-hint>Max 50 characters</mat-hint>
     </mat-form-field>
+
+    @if (title?.errors && title?.touched) {
+    @if (title?.errors?.['required']) {
+    <mat-error>Title is required</mat-error>
+    }
+    @if (title?.errors?.['maxlength']) {
+    <mat-error>Title must be max 50 characters</mat-error>
+    }
+    }
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Material Icon</mat-label>
@@ -21,12 +42,19 @@
       <mat-icon matSuffix>{{ icon?.value || 'home' }}</mat-icon>
     </mat-form-field>
 
+    @if (icon?.errors && icon?.touched) {
+    @if (icon?.errors?.['required']) {
+    <mat-error>Icon is required</mat-error>
+    }
+    }
+
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="dashboardForm.invalid">
+  <button mat-raised-button color="primary" (click)="onSubmit()"
+    [disabled]="dashboardForm.invalid || dashboardForm.pending">
     Create
   </button>
 </mat-dialog-actions>
