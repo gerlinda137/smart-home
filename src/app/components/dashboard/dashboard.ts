@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import * as DashboardActions from '../../store/dashboard/dashboard.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { AddCardModal } from '../add-card-modal/add-card-modal';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +23,7 @@ import { AddCardModal } from '../add-card-modal/add-card-modal';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -36,8 +38,13 @@ export class Dashboard implements OnChanges {
   editingTabId = signal<string | null>(null);
   private store = inject(Store);
   private dialog = inject(MatDialog);
+  private fb = inject(FormBuilder);
 
   selectedIndex = 0;
+
+  tabForm = this.fb.group({
+    title: ['', [Validators.required, Validators.maxLength(50)]],
+  });
 
   ngOnChanges() {
     if (this.dashboard() && this.currentTab()) {
@@ -47,7 +54,18 @@ export class Dashboard implements OnChanges {
     }
   }
 
+  tabTitleValidator() {
+    const title = this.tabForm.get('title')?.value;
+    if (!title) return null;
+
+    const generatedId = title.toLowerCase().replace(/\s+/g, '-');
+    const exists = this.dashboard().tabs.some((tab) => tab.id === generatedId);
+
+    return exists ? { uniqueTitle: true } : null;
+  }
+
   showAddTabForm() {
+    this.tabForm.reset();
     this.isAddingTab.set(true);
   }
 
@@ -56,13 +74,25 @@ export class Dashboard implements OnChanges {
   }
 
   cancelAddTab() {
+    this.tabForm.reset();
     this.isAddingTab.set(false);
   }
 
-  addTab(title: string) {
-    if (!title || !title.trim()) return;
-    this.store.dispatch(DashboardActions.addTab({ title: title.trim() }));
+  addTab() {
+    const validation = this.tabTitleValidator();
+    if (validation) {
+      this.tabForm.get('title')?.setErrors({ uniqueTitle: true });
+      return;
+    }
+
+    const title = this.tabForm.value.title!.trim();
+    this.store.dispatch(DashboardActions.addTab({ title }));
+    this.tabForm.reset();
     this.isAddingTab.set(false);
+  }
+
+  get tabTitle() {
+    return this.tabForm.get('title');
   }
 
   removeTab(tabId: string) {
